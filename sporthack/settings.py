@@ -8,7 +8,7 @@ try:
     with open(os.path.join(BASE_DIR, 'local', 'config.json')) as handle:
         config = json.load(handle)
 except IOError:
-    print("Укажите данные приложения в файле по пути /local/config.json")
+    raise Exception("Укажите данные приложения в файле по пути /local/config.json")
 
 DEBUG = True
 ALLOWED_HOSTS = []
