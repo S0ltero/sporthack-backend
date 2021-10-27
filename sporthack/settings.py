@@ -10,6 +10,8 @@ try:
 except IOError:
     raise Exception("Укажите данные приложения в файле по пути /local/config.json")
 
+SECRET_KEY = str(config['secret_key'])
+
 DEBUG = True
 ALLOWED_HOSTS = []
 
