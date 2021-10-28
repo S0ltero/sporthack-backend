@@ -12,3 +12,10 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         exclude = ("phone", "rank")
 
+
+class TrainerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Trainer
+        exclude = ("institution", "group")
+
