@@ -55,3 +55,19 @@ class Trainer(User):
         verbose_name = _("Тренер")
         verbose_name_plural = _("Тренеры")
 
+
+class Section(models.Model):
+    trainer = models.ForeignKey(Trainer, related_name="section_trainer", 
+                                on_delete=models.CASCADE)
+    description = models.TextField(_("Описание секции"))
+    image = models.ImageField(
+        _("Изображение"),
+        upload_to="section/",
+        default="section/no-image.png",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Секция")
+        verbose_name = _("Секции")
+
