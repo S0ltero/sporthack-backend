@@ -9,3 +9,10 @@ class SectionMemberList(admin.StackedInline):
     model = SectionMember
     extra = 0
     classes = ["collapse"]
+
+
+class SectionEventList(admin.StackedInline):
+    model = SectionEvent
+    extra = 0
+    classes = ["collapse"]
+
