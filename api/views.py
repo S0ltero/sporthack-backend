@@ -49,3 +49,18 @@ class UserView(UpdateAPIView):
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=400)
+
+
+class StudentView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Student
+    serializer_class = StudentSerializer
+
+    def retrieve(self, request, pk):
+        try:
+            student = self.queryset.get(id=pk)
+        except Trainer.DoesNotExist:
+            return Response(data={"description": f"Студент: {pk} не найден!", "error": "student_not_found"})
+        serializer = self.serializer_class(student)
+        return Response(serializer.data, status=200)
+
