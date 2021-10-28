@@ -37,3 +37,9 @@ class User(AbstractUser, UserManager):
     def __str__(self):
         return f"(User: {self.id} - {self.username})"
 
+
+class Student(User):
+    class Meta:
+        proxy = True
+        verbose_name = _("Студент")
+        verbose_name_plural = _("Студенты")
