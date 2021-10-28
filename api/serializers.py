@@ -34,3 +34,12 @@ class SectionMemberSerializer(serializers.ModelSerializer):
         fields = "__all__"
         depth = 2
 
+
+class SectionSerializer(serializers.ModelSerializer):
+    members = SectionMemberSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Section
+        fields = "__all__"
+
+
