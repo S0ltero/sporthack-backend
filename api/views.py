@@ -103,3 +103,21 @@ class SectionView(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=400)
+
+
+class SectionEventListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SectionEvent
+    serializer_class = SectionEventSerializer
+
+    def post(self, request, *args, **kwargs):
+        try:
+            events = self.queryset.objects.all()
+            for key, value in request.data.items():
+                if value:
+                    events = events.filter(**{key: value})
+            serializer = self.serializer_class(events, many=True)
+            return Response(serializer.data, status=200)
+        except SectionEvent.DoesNotExist:
+            return Response(data={"desctiption": "Мероприятия не найдены", "error": "events_not_found"})
+
