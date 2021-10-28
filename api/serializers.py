@@ -6,6 +6,13 @@ from .models import (User, Student, Trainer, Section,
                      SectionMember, ResetPassCode)
 
 
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = "__all__"
+
+
 class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
