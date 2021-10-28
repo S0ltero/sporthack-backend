@@ -61,7 +61,8 @@ class Trainer(User):
 
 
 class Section(models.Model):
-    trainer = models.ForeignKey(Trainer, related_name="section_trainer", 
+    trainer = models.ForeignKey(Trainer, verbose_name=_("Тренер"),
+                                related_name="section_trainer",
                                 on_delete=models.CASCADE)
     description = models.TextField(_("Описание секции"))
     image = models.ImageField(
