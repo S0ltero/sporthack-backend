@@ -26,3 +26,11 @@ class TrainerSerializer(serializers.ModelSerializer):
         model = Trainer
         exclude = ("institution", "group")
 
+
+class SectionMemberSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SectionMember
+        fields = "__all__"
+        depth = 2
+
