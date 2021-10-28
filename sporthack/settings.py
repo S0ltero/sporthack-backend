@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     # Modules
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
 
     # Apps
@@ -103,6 +104,13 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': False,
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
 }
 
 # Internationalization
