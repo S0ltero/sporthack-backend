@@ -4,6 +4,8 @@ from django.core import validators
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from .managers import StudentManager, TrainerManager
+
 
 class User(AbstractUser, UserManager):
     sex = models.CharField(verbose_name=_("Пол"), max_length=30)
@@ -39,6 +41,7 @@ class User(AbstractUser, UserManager):
 
 
 class Student(User):
+    objects = StudentManager()
     class Meta:
         proxy = True
         verbose_name = _("Студент")
@@ -46,6 +49,7 @@ class Student(User):
 
 
 class Trainer(User):
+    objects = TrainerManager()
     class Meta:
         proxy = True
         verbose_name = _("Тренер")
