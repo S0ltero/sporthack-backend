@@ -92,3 +92,17 @@ class SectionEvent(models.Model):
         verbose_name = "Мероприятие"
         verbose_name_plural = "Мероприятия"
 
+
+class ResetPassCode(models.Model):
+    user = models.ForeignKey(
+        User,
+        verbose_name=_("Пользователь"),
+        related_name="reset_pass_user",
+        on_delete=models.CASCADE,
+    )
+    code = models.IntegerField(verbose_name="Код сброса пароля")
+    expired_at = models.DateTimeField(verbose_name="Время истечения", default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        self.expired_at = timezone.now() + timezone.timedelta(minutes=30)
+        super(ResetPassCode, self).save()
