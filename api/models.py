@@ -69,7 +69,7 @@ class Section(models.Model):
 
     class Meta:
         verbose_name = _("Секция")
-        verbose_name = _("Секции")
+        verbose_name_plural = _("Секции")
 
 
 class SectionMember(models.Model):
@@ -80,7 +80,7 @@ class SectionMember(models.Model):
 
     class Meta:
         verbose_name = _("Участник секции")
-        verbose_name = _("Участники секции")
+        verbose_name_plural = _("Участники секции")
 
 
 class SectionEvent(models.Model):
