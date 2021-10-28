@@ -78,3 +78,17 @@ class SectionMember(models.Model):
     member = models.ForeignKey(Student, related_name="section_student_member",
                                on_delete=models.CASCADE)
 
+
+class SectionEvent(models.Model):
+    section = models.ForeignKey(Section, related_name="section_event",
+                                on_delete=models.CASCADE)
+    title = models.CharField(verbose_name=_("Название"), max_length=255)
+    level = models.CharField(verbose_name=_("Уровень"), max_length=100)
+    datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
+    place = models.TextField(verbose_name=_("Место проведения"))
+    is_active = models.BooleanField(verbose_name=_("Активно?"), default=True)
+
+    class Meta:
+        verbose_name = "Мероприятие"
+        verbose_name_plural = "Мероприятия"
+
