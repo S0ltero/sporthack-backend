@@ -121,3 +121,16 @@ class SectionEventListView(ListAPIView):
         except SectionEvent.DoesNotExist:
             return Response(data={"desctiption": "Мероприятия не найдены", "error": "events_not_found"})
 
+
+class SectionMemberCreateView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SectionMember
+    serializer_class = SectionMemberSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
