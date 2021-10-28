@@ -29,6 +29,9 @@ INSTALLED_APPS = [
     # Modules
     'rest_framework',
     'djoser',
+
+    # Apps
+    'api',
 ]
 
 MIDDLEWARE = [
