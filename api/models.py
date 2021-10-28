@@ -78,6 +78,10 @@ class SectionMember(models.Model):
     member = models.ForeignKey(Student, related_name="section_student_member",
                                on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = _("Участник секции")
+        verbose_name = _("Участники секции")
+
 
 class SectionEvent(models.Model):
     section = models.ForeignKey(Section, related_name="section_event",
