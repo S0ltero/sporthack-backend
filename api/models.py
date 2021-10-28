@@ -55,6 +55,10 @@ class Trainer(User):
         verbose_name = _("Тренер")
         verbose_name_plural = _("Тренеры")
 
+    def save(self) -> None:
+        self.is_trainer = True
+        return super().save(self)
+
 
 class Section(models.Model):
     trainer = models.ForeignKey(Trainer, related_name="section_trainer", 
