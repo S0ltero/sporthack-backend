@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from .models import (User, Student, Trainer, Section, 
-                     SectionMember, ResetPassCode)
+                     SectionMember, SectionEvent, ResetPassCode)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -42,4 +42,10 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = "__all__"
 
+
+class SectionEventSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SectionEvent
+        fields = "__all__"
 
