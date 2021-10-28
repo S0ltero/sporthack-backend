@@ -71,3 +71,10 @@ class Section(models.Model):
         verbose_name = _("Секция")
         verbose_name = _("Секции")
 
+
+class SectionMember(models.Model):
+    section = models.ForeignKey(Section, related_name="section_member", 
+                                on_delete=models.CASCADE)
+    member = models.ForeignKey(Student, related_name="section_student_member",
+                               on_delete=models.CASCADE)
+
