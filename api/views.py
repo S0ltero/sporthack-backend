@@ -34,3 +34,18 @@ def init_user(request):
         return user
     except User.DoesNotExist:
         return None
+
+
+class UserView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = User
+    serializer_class = UserSerializer
+
+    def update(self, request):
+        user = init_user(request)
+        serializer = self.serializer_class(instance=user, data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            serializer.update(user, serializer.validated_data)
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
