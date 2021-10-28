@@ -93,8 +93,8 @@ class SectionEvent(models.Model):
     is_active = models.BooleanField(verbose_name=_("Активно?"), default=True)
 
     class Meta:
-        verbose_name = "Мероприятие"
-        verbose_name_plural = "Мероприятия"
+        verbose_name = _("Мероприятие")
+        verbose_name_plural = _("Мероприятия")
 
 
 class ResetPassCode(models.Model):
@@ -104,8 +104,8 @@ class ResetPassCode(models.Model):
         related_name="reset_pass_user",
         on_delete=models.CASCADE,
     )
-    code = models.IntegerField(verbose_name="Код сброса пароля")
-    expired_at = models.DateTimeField(verbose_name="Время истечения", default=timezone.now)
+    code = models.IntegerField(verbose_name=_("Код сброса пароля"))
+    expired_at = models.DateTimeField(verbose_name=_("Время истечения"), default=timezone.now)
 
     def save(self, *args, **kwargs):
         self.expired_at = timezone.now() + timezone.timedelta(minutes=30)
