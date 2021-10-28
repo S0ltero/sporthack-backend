@@ -77,3 +77,29 @@ class TrainerView(RetrieveAPIView):
             return Response(data={"description": f"Тренер: {pk} не найден!", "error": "trainer_not_found"}, status=404)
         serializer = self.serializer_class(trainer)
         return Response(serializer.data, status=200)
+
+
+class SectionView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Section
+    serializer_class = SectionSerializer
+
+    def retrieve(self, request, pk):
+        try:
+            section = self.queryset.objects.get(id=pk)
+        except Section.DoesNotExist:
+            return Response(data={"description": f"Секция: {pk} не найдена!", "error": "section_not_found"}, status=404)
+        serializer = self.serializer_class(section)
+        return Response(serializer.data, status=200)
+
+    def update(self, request, pk):
+        try:
+            section = self.queryset.objects.get(id=pk)
+        except Section.DoesNotExist:
+            return Response(data={"description": f"Секция: {pk} не найдена!", "error": "section_not_found"}, status=404)
+        serializer = self.serializer_class(section, data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            serializer.update(section, serializer.validated_data)
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
