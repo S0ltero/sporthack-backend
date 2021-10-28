@@ -43,3 +43,11 @@ class Student(User):
         proxy = True
         verbose_name = _("Студент")
         verbose_name_plural = _("Студенты")
+
+
+class Trainer(User):
+    class Meta:
+        proxy = True
+        verbose_name = _("Тренер")
+        verbose_name_plural = _("Тренеры")
+
