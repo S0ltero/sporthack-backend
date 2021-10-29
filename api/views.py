@@ -87,6 +87,21 @@ class TrainerView(RetrieveAPIView):
         return Response(serializer.data, status=200)
 
 
+class SectionListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Section
+    serializer_class = SectionSerializer
+
+    def get(self, request, *args, **kwargs):
+        try:
+            sections = self.queryset.objects.all()
+        except Section.DoesNotExist:
+            return Response(data={"description": f"Секции не найдены", "error": "sections_not_found"}, status=404)
+        
+        serializer = self.serializer_class(sections, many=True)
+        return Response(serializer.data, status=200)
+
+
 class SectionView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Section
