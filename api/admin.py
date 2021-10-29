@@ -74,6 +74,12 @@ class AdminSection(admin.ModelAdmin):
     actions = None
 
 
+@admin.register(SectionTraining)
+class AdminSectionTraining(admin.ModelAdmin):
+    inlines = [TrainingMemberList]
+    actions = None
+
+
 @admin.register(SectionEvent)
 class AdminSectionEvent(admin.ModelAdmin):
     inlines = [EventMemberList]
