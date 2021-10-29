@@ -46,6 +46,7 @@ class SectionMemberSerializer(serializers.ModelSerializer):
 
 class SectionSerializer(serializers.ModelSerializer):
     members = SectionMemberSerializer(many=True, read_only=True)
+    trainers = TrainerSerializer(many=True, read_only=True)
 
     class Meta:
         model = Section
