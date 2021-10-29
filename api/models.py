@@ -62,7 +62,7 @@ class Trainer(User):
 
 class Section(models.Model):
     trainer = models.ForeignKey(Trainer, verbose_name=_("Тренер"),
-                                related_name="section_trainer",
+                                related_name="trainer",
                                 on_delete=models.CASCADE)
     title = models.CharField(_("Название секции"), max_length=255)
     description = models.TextField(_("Описание секции"))
