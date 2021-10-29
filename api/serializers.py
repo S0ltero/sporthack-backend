@@ -2,8 +2,13 @@ from djoser.serializers import PasswordRetypeSerializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from .models import (User, Student, Trainer, Section, 
-                     SectionMember, SectionEvent, ResetPassCode)
+from .models import (
+    User, Student, Trainer, 
+    Section, SectionMember, 
+    SectionEvent, EventMember,
+    SectionTraining, TrainingMember,
+    ResetPassCode
+)
 
 
 class UserSerializer(serializers.ModelSerializer):
