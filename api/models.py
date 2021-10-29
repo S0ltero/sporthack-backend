@@ -113,6 +113,18 @@ class EventMember(models.Model):
         verbose_name = _("Участник мероприятия")
         verbose_name_plural = _("Участники мероприятия")
 
+
+class SectionTraining(models.Model):
+    section = models.ForeignKey(Section, related_name="training",
+                                on_delete=models.CASCADE)
+    datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
+    
+    def generate_hash_url(self):
+        pass
+
+    class Meta:
+        verbose_name = _("Тренировка")
+        verbose_name_plural = _("Тренировки")
 class ResetPassCode(models.Model):
     user = models.ForeignKey(
         User,
