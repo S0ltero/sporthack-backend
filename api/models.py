@@ -93,6 +93,7 @@ class SectionMember(models.Model):
     class Meta:
         verbose_name = _("Участник секции")
         verbose_name_plural = _("Участники секции")
+        unique_together = ['section', 'member']
 
 
 class SectionEvent(models.Model):
@@ -118,6 +119,7 @@ class EventMember(models.Model):
     class Meta:
         verbose_name = _("Участник мероприятия")
         verbose_name_plural = _("Участники мероприятия")
+        unique_together = ['event', 'member']
 
 
 class SectionTraining(models.Model):
@@ -142,6 +144,7 @@ class TrainingMember(models.Model):
     class Meta:
         verbose_name = _("Участник тренировки")
         verbose_name_plural = _("Участники тренировки")
+        unique_together = ['training', 'member']
 
 
 class ResetPassCode(models.Model):
