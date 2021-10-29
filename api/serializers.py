@@ -32,7 +32,6 @@ class SectionMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = SectionMember
         fields = "__all__"
-        depth = 2
 
 
 class SectionSerializer(serializers.ModelSerializer):
