@@ -90,7 +90,7 @@ class SectionMember(models.Model):
 
 
 class SectionEvent(models.Model):
-    section = models.ForeignKey(Section, related_name="section_event",
+    section = models.ForeignKey(Section, related_name="event",
                                 on_delete=models.CASCADE)
     title = models.CharField(verbose_name=_("Название"), max_length=255)
     level = models.CharField(verbose_name=_("Уровень"), max_length=100)
