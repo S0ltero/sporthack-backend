@@ -55,6 +55,7 @@ class EventMemberSerializer(serializers.ModelSerializer):
 
 
 class SectionEventSerializer(serializers.ModelSerializer):
+    members = EventMemberSerializer(many=True, read_only=True)
 
     class Meta:
         model = SectionEvent
