@@ -103,6 +103,16 @@ class SectionEvent(models.Model):
         verbose_name_plural = _("Мероприятия")
 
 
+class EventMember(models.Model):
+    event = models.ForeignKey(SectionEvent, related_name="member",
+                              on_delete=models.CASCADE)
+    member = models.ForeignKey(Student, related_name="event_member",
+                               on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("Участник мероприятия")
+        verbose_name_plural = _("Участники мероприятия")
+
 class ResetPassCode(models.Model):
     user = models.ForeignKey(
         User,
