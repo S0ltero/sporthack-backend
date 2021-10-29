@@ -8,7 +8,12 @@ from .managers import StudentManager, TrainerManager
 
 
 class User(AbstractUser, UserManager):
-    sex = models.CharField(verbose_name=_("Пол"), max_length=30)
+
+    SEX_CHOICES = [
+        ("MEN", "Мужской"),
+        ("WOMEN", "Женский")
+    ]
+
     email = models.EmailField(
         _("Email адрес"),
         unique=True,
@@ -23,6 +28,7 @@ class User(AbstractUser, UserManager):
         default="user/no-image.png",
         blank=True,
     )
+    sex = models.CharField(verbose_name=_("Пол"), max_length=5, choices=SEX_CHOICES)
     institution = models.TextField(verbose_name=_("Учебное заведение"), blank=True)
     group = models.CharField(verbose_name=_("Группа"), max_length=50, blank=True)
     rank = models.TextField(verbose_name=_("Звание"), blank=True)
