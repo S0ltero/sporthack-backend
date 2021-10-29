@@ -68,3 +68,11 @@ class TrainingMemberSerializer(serializers.ModelSerializer):
         model = TrainingMember
         fields = "__all__"
 
+
+class SectionTrainingSerializer(serializers.ModelSerializer):
+    members = TrainingMemberSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SectionTraining
+        fields = "__all__"
+
