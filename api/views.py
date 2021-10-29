@@ -211,6 +211,24 @@ class TrainingMemberCreateView(CreateAPIView):
             return Response(serializer.errors, status=400)
 
 
+class TrainingMemberDeleteView(GenericAPIView):
+    permission_classes = [IsAuthenticated, IsTrainer]
+    queryset = TrainingMember
+
+    def post(self, request, *args, **kwargs):
+        member_id = request.data.get("member")
+        training_id = request.data.get("training")
+        try:
+            member = self.queryset.objects.get(training_id=training_id, member_id=member_id)
+            member.delete()
+        except SectionMember.DoesNotExist:
+            return Response(
+                data={"description": f"Участник: {member_id}, Тренировки: {training_id} не найден!", 
+                      "error": "training_member_not_found"}, 
+                status=404
+            )
+
+
 class SectionEventListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = SectionEvent
