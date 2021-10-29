@@ -47,6 +47,13 @@ class SectionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class EventMemberSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EventMember
+        fields = "__all__"
+
+
 class SectionEventSerializer(serializers.ModelSerializer):
 
     class Meta:
