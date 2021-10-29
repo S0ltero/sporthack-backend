@@ -183,6 +183,34 @@ class SectionTrainingView(RetrieveAPIView):
         return Response(serializer.data, status=200)
 
 
+class TrainingMemberCreateView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = TrainingMember
+    serializer_class = TrainingMemberSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            training = SectionTraining.objects.get(id=request.data.get("training"))
+        except SectionTraining.DoesNotExist:
+            return Response(
+                data={"description": f"Тренировка: {request.data.get('training')} не найдена",
+                      "error": "training_not_found"},
+                status=404
+            )
+        if training.datetime < timezone.now():
+            return Response(
+                data={"description": "Невозможно добавление участника к прошедшей тренировке",
+                      "error": "training_is_expired"},
+                status=400
+            )
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
+
 class SectionEventListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = SectionEvent
