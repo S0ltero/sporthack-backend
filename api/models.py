@@ -142,7 +142,7 @@ class ResetPassCode(models.Model):
     user = models.ForeignKey(
         User,
         verbose_name=_("Пользователь"),
-        related_name="reset_pass_user",
+        related_name="reset_code",
         on_delete=models.CASCADE,
     )
     code = models.IntegerField(verbose_name=_("Код сброса пароля"))
