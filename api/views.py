@@ -13,7 +13,9 @@ from .models import (
     User, 
     Student, Trainer, 
     Section, SectionMember,
-    SectionEvent
+    SectionEvent, EventMember,
+    SectionTraining, TrainingMember,
+    ResetPassCode
 )
 from .serializers import (
     UserSerializer,
