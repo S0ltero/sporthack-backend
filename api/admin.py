@@ -68,6 +68,12 @@ class AdminTrainer(UserAdmin):
         return queryset.filter(is_trainer=True)
 
 
+@admin.register(Section)
+class AdminSection(admin.ModelAdmin):
+    inlines = [SectionMemberList]
+    actions = None
+
+
 @admin.register(SectionEvent)
 class AdminSectionEvent(admin.ModelAdmin):
     inlines = [EventMemberList]
