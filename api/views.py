@@ -243,7 +243,10 @@ class SectionEventListView(ListAPIView):
             serializer = self.serializer_class(events, many=True)
             return Response(serializer.data, status=200)
         except SectionEvent.DoesNotExist:
-            return Response(data={"desctiption": "Мероприятия не найдены", "error": "events_not_found"})
+            return Response(
+                data={"desctiption": "Мероприятия не найдены", 
+                      "error": "events_not_found"},
+                status=404)
 
 
 class EventMemberCreateView(CreateAPIView):
