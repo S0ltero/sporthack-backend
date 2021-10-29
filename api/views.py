@@ -1,9 +1,14 @@
+import random
+
+from django.core.mail import send_mail
+from django.utils import timezone
 from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
     UpdateAPIView,
     RetrieveUpdateDestroyAPIView,
     ListAPIView,
+    GenericAPIView
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -24,6 +29,7 @@ from .serializers import (
     SectionEventSerializer, EventMemberSerializer,
     SectionTrainingSerializer, TrainingMemberSerializer,
 )
+from .permissions import IsTrainer
 
 
 def init_user(request):
