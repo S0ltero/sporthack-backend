@@ -79,9 +79,9 @@ class Section(models.Model):
 
 
 class SectionMember(models.Model):
-    section = models.ForeignKey(Section, related_name="section_member", 
+    section = models.ForeignKey(Section, related_name="member", 
                                 on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="section_student_member",
+    member = models.ForeignKey(Student, related_name="section_member",
                                on_delete=models.CASCADE)
 
     class Meta:
