@@ -61,3 +61,10 @@ class SectionEventSerializer(serializers.ModelSerializer):
         model = SectionEvent
         fields = "__all__"
 
+
+class TrainingMemberSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TrainingMember
+        fields = "__all__"
+
