@@ -76,3 +76,35 @@ class SectionTrainingSerializer(serializers.ModelSerializer):
         model = SectionTraining
         fields = "__all__"
 
+
+class EmailAndCodeSerializer(serializers.Serializer):
+
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+
+        try:
+            self.code = ResetPassCode.objects.get(
+                user__email=self.initial_data.get("email", ""),
+                code=int(self.initial_data.get("code", ""))
+            )
+        except (ResetPassCode.DoesNotExist, ValueError, TypeError, OverflowError):
+            key_error = "invalid_code"
+            raise ValidationError(code=key_error)
+        
+        self.user = User.objects.get(email=self.initial_data.get("email", ""))
+        
+        return validated_data
+
+
+class PasswordResetConfirmSerializer(EmailAndCodeSerializer, PasswordRetypeSerializer):
+
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+
+        self.code = ResetPassCode.objects.get(
+            user__email=self.initial_data.get("email", ""),
+            code=int(self.initial_data.get("code", ""))
+        )
+        self.code.delete()
+
+        return validated_data
