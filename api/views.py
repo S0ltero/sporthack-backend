@@ -134,6 +134,7 @@ class SectionMemberCreateView(CreateAPIView):
     serializer_class = SectionMemberSerializer
 
     def create(self, request, *args, **kwargs):
+        request.data["member"] = init_user(request).id
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -204,6 +205,7 @@ class TrainingMemberCreateView(CreateAPIView):
     serializer_class = TrainingMemberSerializer
 
     def create(self, request, *args, **kwargs):
+        request.data["member"] = init_user(request).id
         try:
             training = SectionTraining.objects.get(id=request.data.get("training"))
         except SectionTraining.DoesNotExist:
@@ -270,6 +272,7 @@ class EventMemberCreateView(CreateAPIView):
     serializer_class = EventMemberSerializer
 
     def create(self, request, *args, **kwargs):
+        request.data["member"] = init_user(request).id
         try:
             event = SectionTraining.objects.get(id=request.data.get("event"))
         except SectionTraining.DoesNotExist:
