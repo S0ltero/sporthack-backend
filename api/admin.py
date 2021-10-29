@@ -17,6 +17,11 @@ class TrainingMemberList(admin.StackedInline):
     classes = ["collapse"]
 
 
+class EventMemberList(admin.StackedInline):
+    model = EventMember
+    extra = 0
+    classes = ["collapse"]
+
 @admin.register(SectionEvent)
 class AdminSectionEvent(admin.ModelAdmin):
     inlines = [EventMemberList]
