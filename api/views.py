@@ -166,6 +166,23 @@ class SectionTrainingListView(ListAPIView):
         return Response(serializer.data, status=200)
 
 
+class SectionTrainingView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SectionTraining
+    serializer_class = SectionTrainingSerializer
+
+    def retrieve(self, request, pk):
+        try:
+            training = self.queryset.objects.get(id=pk)
+        except SectionTraining.DoesNotExist:
+            return Response(
+                data={"description": f"Тренировка: {pk} не найдена",
+                      "error": "training_not_found"}
+            )
+        serializer = self.serializer_class(training)
+        return Response(serializer.data, status=200)
+
+
 class SectionEventListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = SectionEvent
