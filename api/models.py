@@ -125,6 +125,19 @@ class SectionTraining(models.Model):
     class Meta:
         verbose_name = _("Тренировка")
         verbose_name_plural = _("Тренировки")
+
+
+class TrainingMember(models.Model):
+    training = models.ForeignKey(SectionTraining, related_name="member",
+                                 on_delete=models.CASCADE)
+    member = models.ForeignKey(Student, related_name="training_member",
+                               on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("Участник тренировки")
+        verbose_name_plural = _("Участники тренировки")
+
+
 class ResetPassCode(models.Model):
     user = models.ForeignKey(
         User,
