@@ -275,3 +275,24 @@ class EventMemberCreateView(CreateAPIView):
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+
+class EventMemberDeleteView(GenericAPIView):
+    permission_classes = [IsAuthenticated, IsTrainer]
+    queryset = EventMember
+    serializer_class = EventMemberSerializer
+
+    def post(self, request, *args, **kwargs):
+        member_id = request.data.get("member")
+        event_id = request.data.get("event")
+        try:
+            member = self.queryset.objects.get(event_id=event_id, member_id=member_id)
+            member.delete()
+        except SectionMember.DoesNotExist:
+            return Response(
+                data={"description": f"Участник: {member_id}, Мероприятия: {event_id} не найден!", 
+                      "error": "event_member_not_found"}, 
+                status=404
+            )
+
+
