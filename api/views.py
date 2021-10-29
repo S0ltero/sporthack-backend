@@ -21,7 +21,8 @@ from .serializers import (
     UserSerializer,
     StudentSerializer, TrainerSerializer,
     SectionSerializer, SectionMemberSerializer,
-    SectionEventSerializer
+    SectionEventSerializer, EventMemberSerializer,
+    SectionTrainingSerializer, TrainingMemberSerializer,
 )
 
 
