@@ -113,6 +113,20 @@ class SectionView(RetrieveUpdateDestroyAPIView):
             return Response(serializer.errors, status=400)
 
 
+class SectionMemberCreateView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SectionMember
+    serializer_class = SectionMemberSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
+
 class SectionEventListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = SectionEvent
@@ -130,12 +144,26 @@ class SectionEventListView(ListAPIView):
             return Response(data={"desctiption": "Мероприятия не найдены", "error": "events_not_found"})
 
 
-class SectionMemberCreateView(CreateAPIView):
+class EventMemberCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = SectionMember
-    serializer_class = SectionMemberSerializer
+    queryset = EventMember
+    serializer_class = EventMemberSerializer
 
     def create(self, request, *args, **kwargs):
+        try:
+            event = SectionTraining.objects.get(id=request.data.get("event"))
+        except SectionTraining.DoesNotExist:
+            return Response(
+                data={"description": f"Мероприятие: {request.data.get('event')} не найдено",
+                      "error": "event_not_found"},
+                status=404
+            )
+        if event.datetime < timezone.now():
+            return Response(
+                data={"description": "Невозможно добавление участника к прошедшей тренировке",
+                      "error": "event_is_expired"},
+                status=400
+            )
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
