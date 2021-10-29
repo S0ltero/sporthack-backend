@@ -145,6 +145,27 @@ class SectionMemberDeleteView(GenericAPIView):
                 status=404)
 
 
+class SectionTrainingListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SectionTraining
+    serializer_class = SectionTrainingSerializer
+
+    def post(self, request, *args, **kwargs):
+        try:
+            if request.data.get("section_id"):
+                trainings = self.queryset.objects.filter(section_id=request.data.get("section_id"))
+            else:
+                trainings = self.queryset.objects.all()
+        except SectionTraining.DoesNotExist:
+            return Response(
+                data={"description": "Тренировки не найдены", 
+                      "error": "trainings_not_found"}, 
+                status=404)
+
+        serializer = self.serializer_class(trainings, many=True)
+        return Response(serializer.data, status=200)
+
+
 class SectionEventListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = SectionEvent
