@@ -44,6 +44,30 @@ class AdminStudent(UserAdmin):
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         return queryset.filter(is_trainer=False)
+
+
+@admin.register(Trainer)
+class AdminTrainer(UserAdmin):
+    actions = None
+    list_display = ("id", "username",  "is_active")
+    list_filter = ("is_active",)
+    list_display_links = ("username",)
+    readonly_fields = ("password", "last_login", "date_joined")
+    fieldsets = (
+        ("Основная информация", {"fields": (("username", "email", "sex", "password"))}),
+        ("Дополнительная информация", {"fields": ("last_login", "date_joined")}),
+    )
+    add_fieldsets = (
+        (None, {
+            "fields": ("username", "email", "password1", "password2", "sex")}
+         ),
+    )
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.filter(is_trainer=True)
+
+
 @admin.register(SectionEvent)
 class AdminSectionEvent(admin.ModelAdmin):
     inlines = [EventMemberList]
