@@ -28,6 +28,7 @@ class User(AbstractUser, UserManager):
         default="user/no-image.png",
         blank=True,
     )
+    middle_name = models.CharField(verbose_name=_("Отчество"), max_length=30, blank=True)
     sex = models.CharField(verbose_name=_("Пол"), max_length=5, choices=SEX_CHOICES)
     institution = models.TextField(verbose_name=_("Учебное заведение"), blank=True)
     group = models.CharField(verbose_name=_("Группа"), max_length=50, blank=True)
