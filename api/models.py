@@ -106,10 +106,20 @@ class SectionMember(models.Model):
 
 
 class SectionEvent(models.Model):
+    LEVEL_CHOICES = [
+        ("institute", "Институтский"),
+        ("university", "Университетсткий"),
+        ("interuniversity", "Межуниверситетский"),
+        ("district", "Районный"),
+        ("city", "Городской"),
+        ("regional", "Областной"),
+        ("all-russia", "Всероссийский")
+    ]
+
     section = models.ForeignKey(Section, verbose_name=_("Секция"), 
                                 related_name="event", on_delete=models.CASCADE)
     title = models.CharField(verbose_name=_("Название"), max_length=255)
-    level = models.CharField(verbose_name=_("Уровень"), max_length=100)
+    level = models.CharField(verbose_name=_("Уровень"), max_length=100, choices=LEVEL_CHOICES)
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
     place = models.TextField(verbose_name=_("Место проведения"))
     is_active = models.BooleanField(verbose_name=_("Активно?"), default=True)
