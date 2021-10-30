@@ -16,11 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id", "username", "email",
-            "phone", "institution", "group",
-            "image", "rank"
+            "id", "last_name", "first_name", "middle_name" 
+            "email", "phone", "institution", 
+            "group", "image", "rank"
         )
-        extra_kwargs = {"username": {"required": False}}
 
 
 class StudentSerializer(serializers.ModelSerializer):
