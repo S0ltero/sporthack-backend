@@ -24,7 +24,7 @@ class User(AbstractUser):
             "unique": _("Пользователь с таким email уже существует."),
         },
     )
-    image = models.ImageField(
+    photo = models.ImageField(
         _("Фотография"),
         upload_to="user/",
         default="user/no-image.png",
