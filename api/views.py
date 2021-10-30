@@ -67,6 +67,7 @@ class StudentView(RetrieveAPIView):
     def retrieve(self, request, pk):
         try:
             student = self.queryset.objects.get(id=pk)
+        except Student.DoesNotExist:
             return Response(data={"description": f"Студент: {pk} не найден!", "error": "student_not_found"})
         serializer = self.serializer_class(student)
         return Response(serializer.data, status=200)
