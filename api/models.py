@@ -32,10 +32,14 @@ class User(AbstractUser):
     )
     middle_name = models.CharField(verbose_name=_("Отчество"), max_length=30, blank=True)
     sex = models.CharField(verbose_name=_("Пол"), max_length=5, choices=SEX_CHOICES)
+
+    # Student unique fields
     institution = models.TextField(verbose_name=_("Учебное заведение"), blank=True)
     group = models.CharField(verbose_name=_("Группа"), max_length=50, blank=True)
-    rank = models.TextField(verbose_name=_("Звание"), blank=True)
     rating = models.IntegerField(verbose_name=_("Рейтинг"), default=0, blank=True, null=True)
+
+    # Trainer unique fields
+    rank = models.TextField(verbose_name=_("Звание"), blank=True)
     phone = PhoneNumberField(verbose_name=_("Номер телефона"), blank=True)
     is_trainer = models.BooleanField(verbose_name=_("Тренер"), default=False)
 
