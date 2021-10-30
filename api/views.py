@@ -134,7 +134,7 @@ class SectionMemberCreateView(CreateAPIView):
     serializer_class = SectionMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["member"] = init_user(request).id
+        request.data["user"] = init_user(request).id
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -149,14 +149,14 @@ class SectionMemberDeleteView(GenericAPIView):
     serializer_class = SectionMemberSerializer
 
     def post(self, request, *args, **kwargs):
-        member_id = request.data.get("member")
+        user_id = request.data.get("user")
         section_id = request.data.get("section")
         try:
-            member = self.queryset.objects.get(section_id=section_id, member_id=member_id)
+            member = self.queryset.objects.get(section_id=section_id, user_id=user_id)
             member.delete()
         except SectionMember.DoesNotExist:
             return Response(
-                data={"description": f"Участник: {member_id}, Секции {section_id} не найден!", 
+                data={"description": f"Участник: {user_id}, Секции {section_id} не найден!", 
                       "error": "section_member_not_found"}, 
                 status=404)
 
@@ -205,7 +205,7 @@ class TrainingMemberCreateView(CreateAPIView):
     serializer_class = TrainingMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["member"] = init_user(request).id
+        request.data["user"] = init_user(request).id
         try:
             training = SectionTraining.objects.get(id=request.data.get("training"))
         except SectionTraining.DoesNotExist:
@@ -233,14 +233,14 @@ class TrainingMemberDeleteView(GenericAPIView):
     queryset = TrainingMember
 
     def post(self, request, *args, **kwargs):
-        member_id = request.data.get("member")
+        user_id = request.data.get("user")
         training_id = request.data.get("training")
         try:
-            member = self.queryset.objects.get(training_id=training_id, member_id=member_id)
+            member = self.queryset.objects.get(training_id=training_id, user_id=user_id)
             member.delete()
         except SectionMember.DoesNotExist:
             return Response(
-                data={"description": f"Участник: {member_id}, Тренировки: {training_id} не найден!", 
+                data={"description": f"Участник: {user_id}, Тренировки: {training_id} не найден!", 
                       "error": "training_member_not_found"}, 
                 status=404
             )
@@ -272,7 +272,7 @@ class EventMemberCreateView(CreateAPIView):
     serializer_class = EventMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["member"] = init_user(request).id
+        request.data["user"] = init_user(request).id
         try:
             event = SectionTraining.objects.get(id=request.data.get("event"))
         except SectionTraining.DoesNotExist:
@@ -301,14 +301,14 @@ class EventMemberDeleteView(GenericAPIView):
     serializer_class = EventMemberSerializer
 
     def post(self, request, *args, **kwargs):
-        member_id = request.data.get("member")
+        user_id = request.data.get("user")
         event_id = request.data.get("event")
         try:
-            member = self.queryset.objects.get(event_id=event_id, member_id=member_id)
+            member = self.queryset.objects.get(event_id=event_id, user_id=user_id)
             member.delete()
         except SectionMember.DoesNotExist:
             return Response(
-                data={"description": f"Участник: {member_id}, Мероприятия: {event_id} не найден!", 
+                data={"description": f"Участник: {user_id}, Мероприятия: {event_id} не найден!", 
                       "error": "event_member_not_found"}, 
                 status=404
             )
