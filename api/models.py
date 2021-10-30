@@ -92,6 +92,9 @@ class Section(models.Model):
         verbose_name = _("Секция")
         verbose_name_plural = _("Секции")
 
+    def __str__(self):
+        return f"{self.title}"
+
 
 class SectionMember(models.Model):
     section = models.ForeignKey(Section, related_name="member", 
