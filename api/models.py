@@ -34,6 +34,7 @@ class User(AbstractUser, UserManager):
     institution = models.TextField(verbose_name=_("Учебное заведение"), blank=True)
     group = models.CharField(verbose_name=_("Группа"), max_length=50, blank=True)
     rank = models.TextField(verbose_name=_("Звание"), blank=True)
+    rating = models.IntegerField(verbose_name=_("Рейтинг"), default=0, blank=True, null=True)
     phone = models.CharField(verbose_name=_("Номер телефона"), max_length=255, blank=True)
     is_trainer = models.BooleanField(verbose_name=_("Тренер"), default=False)
 
