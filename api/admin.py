@@ -85,4 +85,7 @@ class AdminSectionTraining(admin.ModelAdmin):
 @admin.register(SectionEvent)
 class AdminSectionEvent(admin.ModelAdmin):
     inlines = [EventMemberList]
+    list_display = ("id", "title", "level", "datetime", "place", "is_active")
+    list_display_links = ("id", "title")
+    list_filter = ("is_active", "datetime")
     actions = None
