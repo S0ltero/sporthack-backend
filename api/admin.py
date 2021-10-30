@@ -62,9 +62,12 @@ class AdminTrainer(UserAdmin):
         ("Дополнительная информация", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
-        (None, {
-            "fields": (("last_name","first_name", "middle_name",), "sex", "email", "password1", "password2")}
+        ("Личная информация", {
+            "fields": (("last_name", "first_name", "middle_name"), "sex", "photo", "phone", "rank")}
          ),
+        ("Учетная информация", {
+             "fields": ("email", "password1", "password2")}
+        )
     )
     ordering = ("last_name",)
 
