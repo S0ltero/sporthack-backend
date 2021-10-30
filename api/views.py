@@ -66,8 +66,7 @@ class StudentView(RetrieveAPIView):
 
     def retrieve(self, request, pk):
         try:
-            student = self.queryset.get(id=pk)
-        except Trainer.DoesNotExist:
+            student = self.queryset.objects.get(id=pk)
             return Response(data={"description": f"Студент: {pk} не найден!", "error": "student_not_found"})
         serializer = self.serializer_class(student)
         return Response(serializer.data, status=200)
@@ -80,7 +79,7 @@ class TrainerView(RetrieveAPIView):
 
     def retrieve(self, request, pk):
         try:
-            trainer = self.queryset.get(id=pk)
+            trainer = self.queryset.objects.get(id=pk)
         except Trainer.DoesNotExist:
             return Response(data={"description": f"Тренер: {pk} не найден!", "error": "trainer_not_found"}, status=404)
         serializer = self.serializer_class(trainer)
