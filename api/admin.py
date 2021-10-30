@@ -26,18 +26,18 @@ class EventMemberList(admin.StackedInline):
 @admin.register(Student)
 class AdminStudent(UserAdmin):
     actions = None
-    list_display = ("id", "username", "institution", "group", "is_active")
+    list_display = ("id", "last_name", "first_name", "middle_name", "institution", "group", "is_active")
     list_filter = ("is_active",)
-    list_display_links = ("username",)
-    readonly_fields = ("sex", "password", "last_login", "date_joined")
+    list_display_links = ("last_name", "first_name", "middle_name")
+    readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": (("username", "email", "sex", "password"))}),
+        ("Основная информация", {"fields": (("first_name", "last_name", "middle_name", "email", "sex", "password"))}),
         ("Учебное заведение", {"fields": ("group", "institution")}),
-        ("Дополнительная информация", {"fields": ("last_login", "date_joined")}),
+        ("Дополнительная информация", {"fields": ("rating", "last_login", "date_joined")}),
     )
     add_fieldsets = (
         (None, {
-            "fields": ("username", "email", "password1", "password2", "sex")}
+            "fields": ("last_name", "first_name", "middle_name", "sex", "email", "password1", "password2")}
          ),
     )
 
@@ -49,17 +49,17 @@ class AdminStudent(UserAdmin):
 @admin.register(Trainer)
 class AdminTrainer(UserAdmin):
     actions = None
-    list_display = ("id", "username",  "is_active")
+    list_display = ("id", "last_name", "first_name", "middle_name", "phone", "is_active")
     list_filter = ("is_active",)
-    list_display_links = ("username",)
+    list_display_links = ("last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": (("username", "email", "sex", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name",), "email", "sex", "password"))}),
         ("Дополнительная информация", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         (None, {
-            "fields": ("username", "email", "password1", "password2", "sex")}
+            "fields": (("last_name","first_name", "middle_name",), "sex", "email", "password1", "password2")}
          ),
     )
 
