@@ -142,8 +142,8 @@ class EventMember(models.Model):
 
 
 class SectionTraining(models.Model):
-    section = models.ForeignKey(Section, related_name="training",
-                                on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, verbose_name=_("Секция"),
+                                related_name="training", on_delete=models.CASCADE)
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
     duration = models.IntegerField(verbose_name=_("Продолжительность"))
     is_active = models.BooleanField(verbose_name=_("Активна?"))
