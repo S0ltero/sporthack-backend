@@ -147,6 +147,7 @@ class SectionTraining(models.Model):
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
     duration = models.IntegerField(verbose_name=_("Продолжительность"), default=0, 
                                    help_text="Продолжительность тренировки в минутах")
+    is_active = models.BooleanField(verbose_name=_("Активна?"), default=True)
     
     def generate_hash_url(self):
         pass
