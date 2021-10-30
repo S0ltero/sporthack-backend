@@ -1,13 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.core import validators
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .managers import StudentManager, TrainerManager
+from .managers import UserManager, StudentManager, TrainerManager
 
 
-class User(AbstractUser, UserManager):
+class User(AbstractUser):
 
     SEX_CHOICES = [
         ("MEN", "Мужской"),
@@ -40,6 +40,8 @@ class User(AbstractUser, UserManager):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ("first_name", "last_name")
+
+    objects = UserManager()
 
     class Meta:
         verbose_name = _("Пользователь")
