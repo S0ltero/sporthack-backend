@@ -102,8 +102,8 @@ class SectionMember(models.Model):
 
 
 class SectionEvent(models.Model):
-    section = models.ForeignKey(Section, related_name="event",
-                                on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, verbose_name=_("Секция"), 
+                                related_name="event", on_delete=models.CASCADE)
     title = models.CharField(verbose_name=_("Название"), max_length=255)
     level = models.CharField(verbose_name=_("Уровень"), max_length=100)
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
