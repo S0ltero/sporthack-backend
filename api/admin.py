@@ -40,6 +40,7 @@ class AdminStudent(UserAdmin):
             "fields": ("last_name", "first_name", "middle_name", "sex", "email", "password1", "password2")}
          ),
     )
+    ordering = ("last_name",)
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -62,6 +63,7 @@ class AdminTrainer(UserAdmin):
             "fields": (("last_name","first_name", "middle_name",), "sex", "email", "password1", "password2")}
          ),
     )
+    ordering = ("last_name",)
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)

@@ -14,6 +14,7 @@ class User(AbstractUser, UserManager):
         ("WOMEN", "Женский")
     ]
 
+    username = None
     email = models.EmailField(
         _("Email адрес"),
         unique=True,
@@ -36,8 +37,8 @@ class User(AbstractUser, UserManager):
     phone = models.CharField(verbose_name=_("Номер телефона"), max_length=255, blank=True)
     is_trainer = models.BooleanField(verbose_name=_("Тренер"), default=False)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ("username",)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ("first_name", "last_name")
 
     class Meta:
         verbose_name = _("Пользователь")
