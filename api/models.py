@@ -88,7 +88,7 @@ class Section(models.Model):
 class SectionMember(models.Model):
     section = models.ForeignKey(Section, related_name="member", 
                                 on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="section_member",
+    member = models.ForeignKey(Student, related_name="section",
                                on_delete=models.CASCADE)
 
     class Meta:
@@ -114,7 +114,7 @@ class SectionEvent(models.Model):
 class EventMember(models.Model):
     event = models.ForeignKey(SectionEvent, related_name="member",
                               on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="event_member",
+    member = models.ForeignKey(Student, related_name="event",
                                on_delete=models.CASCADE)
 
     class Meta:
@@ -139,7 +139,7 @@ class SectionTraining(models.Model):
 class TrainingMember(models.Model):
     training = models.ForeignKey(SectionTraining, related_name="member",
                                  on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="training_member",
+    member = models.ForeignKey(Student, related_name="training",
                                on_delete=models.CASCADE)
 
     class Meta:
