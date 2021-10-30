@@ -36,9 +36,12 @@ class AdminStudent(UserAdmin):
         ("Дополнительная информация", {"fields": ("rating", "last_login", "date_joined")}),
     )
     add_fieldsets = (
-        (None, {
-            "fields": ("last_name", "first_name", "middle_name", "sex", "email", "password1", "password2")}
+        ("Личная информация", {
+            "fields": (("last_name", "first_name", "middle_name"), "photo", "sex")}
          ),
+        ("Учетная информация", {
+             "fields": ("email", "password1", "password2")}
+        )
     )
     ordering = ("last_name",)
 
