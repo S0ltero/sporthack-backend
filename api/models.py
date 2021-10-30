@@ -148,12 +148,10 @@ class SectionTraining(models.Model):
     section = models.ForeignKey(Section, verbose_name=_("Секция"),
                                 related_name="training", on_delete=models.CASCADE)
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
+    place = models.TextField(verbose_name=_("Место проведения"))
     duration = models.IntegerField(verbose_name=_("Продолжительность"), default=0, 
                                    help_text="Продолжительность тренировки в минутах")
     is_active = models.BooleanField(verbose_name=_("Активна?"), default=True)
-    
-    def generate_hash_url(self):
-        pass
 
     class Meta:
         verbose_name = _("Тренировка")
