@@ -88,13 +88,13 @@ class Section(models.Model):
 class SectionMember(models.Model):
     section = models.ForeignKey(Section, related_name="member", 
                                 on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="section",
+    user = models.ForeignKey(Student, related_name="section",
                                on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Участник секции")
         verbose_name_plural = _("Участники секции")
-        unique_together = ['section', 'member']
+        unique_together = ['section', 'user']
 
 
 class SectionEvent(models.Model):
@@ -114,13 +114,13 @@ class SectionEvent(models.Model):
 class EventMember(models.Model):
     event = models.ForeignKey(SectionEvent, related_name="member",
                               on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="event",
+    user = models.ForeignKey(Student, related_name="event",
                                on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Участник мероприятия")
         verbose_name_plural = _("Участники мероприятия")
-        unique_together = ['event', 'member']
+        unique_together = ['event', 'user']
 
 
 class SectionTraining(models.Model):
@@ -139,13 +139,13 @@ class SectionTraining(models.Model):
 class TrainingMember(models.Model):
     training = models.ForeignKey(SectionTraining, related_name="member",
                                  on_delete=models.CASCADE)
-    member = models.ForeignKey(Student, related_name="training",
+    user = models.ForeignKey(Student, related_name="training",
                                on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Участник тренировки")
         verbose_name_plural = _("Участники тренировки")
-        unique_together = ['training', 'member']
+        unique_together = ['training', 'user']
 
 
 class ResetPassCode(models.Model):
