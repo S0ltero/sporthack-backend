@@ -33,7 +33,7 @@ class TrainerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trainer
-        exclude = ("institution", "group")
+        exclude = ("institution", "group", "rating")
 
 
 class SectionMemberSerializer(serializers.ModelSerializer):
