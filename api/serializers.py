@@ -26,14 +26,20 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        exclude = ("phone", "rank")
+        fields = (
+            "id", "last_name", "first_name", "middle_name",
+            "email", "photo", "institution", "group"
+        )
 
 
 class TrainerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trainer
-        exclude = ("institution", "group", "rating")
+        fields = (
+            "id", "last_name", "first_name", "middle_name",
+            "email", "phone", "rank", "photo"
+        )
 
 
 class SectionMemberSerializer(serializers.ModelSerializer):
