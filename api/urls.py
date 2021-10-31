@@ -13,8 +13,8 @@ urlpatterns = [
     path("section/create-member", SectionMemberCreateView.as_view(), name="create-section-member"),
     path("section/delete-member", SectionMemberDeleteView.as_view(), name="delete-section-member"),
 
-    path("training/create-member", TrainingMemberCreateView.as_view(), name="create-training-member"),
-    path("training/delete-member", TrainingMemberDeleteView.as_view(), name="delete-training-member"),
+    path("training/create-member/<int:pk>", TrainingMemberCreateView.as_view(), name="create-training-member"),
+    path("training/delete-member/<int:pk>", TrainingMemberDeleteView.as_view(), name="delete-training-member"),
 
     path("events/", SectionEventListView.as_view(), name="events"),
     path("event/create-member", EventMemberCreateView.as_view(), name="create-event-member"),

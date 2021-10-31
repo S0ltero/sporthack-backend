@@ -199,15 +199,15 @@ class SectionTrainingView(RetrieveAPIView):
         return Response(serializer.data, status=200)
 
 
-class TrainingMemberCreateView(CreateAPIView):
+class TrainingMemberCreateView(GenericAPIView):
     permission_classes = [IsAuthenticated]
     queryset = TrainingMember
     serializer_class = TrainingMemberSerializer
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, pk):
         request.data["user"] = init_user(request).id
         try:
-            training = SectionTraining.objects.get(id=request.data.get("training"))
+            training = SectionTraining.objects.get(id=pk)
         except SectionTraining.DoesNotExist:
             return Response(
                 data={"description": f"Тренировка: {request.data.get('training')} не найдена",
@@ -232,15 +232,14 @@ class TrainingMemberDeleteView(GenericAPIView):
     permission_classes = [IsAuthenticated, IsTrainer]
     queryset = TrainingMember
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, pk):
         user_id = request.data.get("user")
-        training_id = request.data.get("training")
         try:
-            member = self.queryset.objects.get(training_id=training_id, user_id=user_id)
+            member = self.queryset.objects.get(training_id=pk, user_id=user_id)
             member.delete()
         except SectionMember.DoesNotExist:
             return Response(
-                data={"description": f"Участник: {user_id}, Тренировки: {training_id} не найден!", 
+                data={"description": f"Участник: {user_id}, Тренировки: {pk} не найден!", 
                       "error": "training_member_not_found"}, 
                 status=404
             )
