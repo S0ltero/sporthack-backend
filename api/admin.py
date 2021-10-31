@@ -104,4 +104,9 @@ class AdminSectionEvent(admin.ModelAdmin):
     list_display = ("id", "title", "level", "datetime", "place", "is_active")
     list_display_links = ("id", "title")
     list_filter = ("is_active", "datetime")
+    add_fieldsets = (
+        (None, {
+            "fields": ("section", "title", "level", "datetime", "place")}
+        )
+    )
     actions = None
