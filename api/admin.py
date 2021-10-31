@@ -87,9 +87,14 @@ class AdminSection(admin.ModelAdmin):
 @admin.register(SectionTraining)
 class AdminSectionTraining(admin.ModelAdmin):
     inlines = [TrainingMemberList]
-    list_display = ("id", "section", "datetime", "duration", "is_active")
+    list_display = ("id", "section", "datetime", "place", "duration", "is_active")
     list_display_links = ("id", "section")
     list_filter = ("is_active", "datetime")
+    add_fieldsets = (
+        (None, {
+            "fields": ("section", "datetime", "place", "duration")}
+        )
+    )
     actions = None
 
 
