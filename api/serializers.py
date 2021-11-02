@@ -42,23 +42,33 @@ class TrainerSerializer(serializers.ModelSerializer):
         )
 
 
+class TrainingMemberSerializer(serializers.ModelSerializer):
+    user = StudentSerializer(read_only=True)
+
+    class Meta:
+        model = TrainingMember
+        fields = "__all__"
+        depth = 1
+
+
+class SectionTrainingSerializer(serializers.ModelSerializer):
+    members = TrainingMemberSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SectionTraining
+        fields = "__all__"
+
+
 class SectionMemberSerializer(serializers.ModelSerializer):
+    user = StudentSerializer(read_only=True)
 
     class Meta:
         model = SectionMember
         fields = "__all__"
 
 
-class SectionSerializer(serializers.ModelSerializer):
-    members = SectionMemberSerializer(many=True, read_only=True)
-    trainers = TrainerSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Section
-        fields = "__all__"
-
-
 class EventMemberSerializer(serializers.ModelSerializer):
+    user = StudentSerializer(read_only=True)
 
     class Meta:
         model = EventMember
@@ -73,19 +83,28 @@ class SectionEventSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TrainingMemberSerializer(serializers.ModelSerializer):
+class SectionSerializer(serializers.ModelSerializer):
+    members = SectionMemberSerializer(many=True, read_only=True)
+    trainers = TrainerSerializer(many=True, read_only=True)
+    trainings = SectionTrainingSerializer(many=True, source="training")
+    events = SectionEventSerializer(many=True, source="event")
 
     class Meta:
-        model = TrainingMember
+        model = Section
         fields = "__all__"
 
 
-class SectionTrainingSerializer(serializers.ModelSerializer):
-    members = TrainingMemberSerializer(many=True, read_only=True)
+class StudentDetailSerializer(serializers.ModelSerializer):
+    sections = SectionMemberSerializer(many=True, read_only=True, source="section")
+    trainings = TrainingMemberSerializer(many=True, read_only=True, source="training")
+    events = EventMemberSerializer(many=True, read_only=True, source="event")
 
     class Meta:
-        model = SectionTraining
-        fields = "__all__"
+        model = Student
+        fields = (
+            "id", "last_name", "first_name", "middle_name",
+            "email", "photo", "institution", "group", "sections", "trainings", "events"
+        )
 
 
 class EmailAndCodeSerializer(serializers.Serializer):
