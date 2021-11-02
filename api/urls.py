@@ -13,6 +13,7 @@ urlpatterns = [
     path("section/create-member", SectionMemberCreateView.as_view(), name="create-section-member"),
     path("section/delete-member", SectionMemberDeleteView.as_view(), name="delete-section-member"),
 
+    path("trainings/", SectionTrainingListView.as_view(), name="trainings"),
     path("training/create-member/<int:pk>", TrainingMemberCreateView.as_view(), name="create-training-member"),
     path("training/delete-member/<int:pk>", TrainingMemberDeleteView.as_view(), name="delete-training-member"),
 
