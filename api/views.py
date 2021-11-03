@@ -216,13 +216,13 @@ class TrainingMemberCreateView(GenericAPIView):
     queryset = TrainingMember
     serializer_class = TrainingMemberSerializer
 
-    def create(self, request, pk):
+    def get(self, request, pk):
         request.data["user"] = init_user(request).id
         try:
             training = SectionTraining.objects.get(id=pk)
         except SectionTraining.DoesNotExist:
             return Response(
-                data={"description": f"Тренировка: {request.data.get('training')} не найдена",
+                data={"description": f"Тренировка: {pk} не найдена",
                       "error": "training_not_found"},
                 status=404
             )
