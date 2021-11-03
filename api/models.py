@@ -71,7 +71,9 @@ class Trainer(User):
         verbose_name = _("Тренер")
         verbose_name_plural = _("Тренеры")
 
-    def save(self) -> None:
+    def save(self, *args, **kwargs) -> None:
+        if self.pk:
+            return super(Trainer, self).save(*args, **kwargs)
         self.is_trainer = True
         return super().save(self)
 
