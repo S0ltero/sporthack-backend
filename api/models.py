@@ -53,7 +53,7 @@ class User(AbstractUser):
         verbose_name_plural = _("Пользователи")
 
     def __str__(self):
-        return f"(User: {self.id} - {self.username})"
+        return f"{self.last_name} {self.first_name}"
 
 
 class Student(User):
@@ -108,6 +108,9 @@ class SectionMember(models.Model):
         verbose_name = _("Участник секции")
         verbose_name_plural = _("Участники секции")
         unique_together = ['section', 'user']
+    
+    def __str__(self):
+        return f"{self.user.last_name} {self.user.first_name}"
 
 
 class SectionEvent(models.Model):
@@ -145,6 +148,9 @@ class EventMember(models.Model):
         verbose_name_plural = _("Участники мероприятия")
         unique_together = ['event', 'user']
 
+    def __str__(self):
+        return f"{self.user.last_name} {self.user.first_name}"
+
 
 class SectionTraining(models.Model):
     section = models.ForeignKey(Section, verbose_name=_("Секция"),
@@ -170,6 +176,9 @@ class TrainingMember(models.Model):
         verbose_name = _("Участник тренировки")
         verbose_name_plural = _("Участники тренировки")
         unique_together = ['training', 'user']
+    
+    def __str__(self):
+        return f"{self.user.last_name} {self.user.first_name}"
 
 
 class ResetPassCode(models.Model):
