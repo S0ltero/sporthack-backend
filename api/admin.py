@@ -90,11 +90,7 @@ class AdminSectionTraining(admin.ModelAdmin):
     list_display = ("id", "section", "datetime", "place", "duration", "is_active")
     list_display_links = ("id", "section")
     list_filter = ("is_active", "datetime")
-    add_fieldsets = (
-        (None, {
-            "fields": ("section", "datetime", "place", "duration")}
-        )
-    )
+    fields = ("section", "datetime", "place", "duration")
     actions = None
 
 
@@ -104,9 +100,5 @@ class AdminSectionEvent(admin.ModelAdmin):
     list_display = ("id", "title", "level", "datetime", "place", "is_active")
     list_display_links = ("id", "title")
     list_filter = ("is_active", "datetime")
-    add_fieldsets = (
-        (None, {
-            "fields": ("section", "title", "level", "datetime", "place")}
-        )
-    )
+    fields = ("section", "title", "level", "datetime", "place")
     actions = None
