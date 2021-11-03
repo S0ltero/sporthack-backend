@@ -1,5 +1,6 @@
 from djoser.serializers import PasswordRetypeSerializer
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
 
 from .models import (
@@ -138,3 +139,12 @@ class PasswordResetConfirmSerializer(EmailAndCodeSerializer, PasswordRetypeSeria
         self.code.delete()
 
         return validated_data
+
+
+class TokenSerializer(serializers.ModelSerializer):
+    auth_token = serializers.CharField(source="key")
+    id = serializers.IntegerField(source="user.id")
+
+    class Meta:
+        model = Token
+        fields = ("auth_token", "id")
