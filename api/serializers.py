@@ -100,13 +100,18 @@ class StudentDetailSerializer(serializers.ModelSerializer):
     sections = SectionMemberSerializer(many=True, read_only=True, source="section")
     trainings = TrainingMemberSerializer(many=True, read_only=True, source="training")
     events = EventMemberSerializer(many=True, read_only=True, source="event")
+    pass_trainings_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Student
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "email", "photo", "institution", "group", "sections", "trainings", "events"
+            "email", "photo", "institution", "group", "sections", 
+            "trainings", "events", "pass_trainings_count"
         )
+    
+    def get_pass_trainings_count(self, obj):
+        return obj.training.filter(training__is_active=False).count()
 
 
 class EmailAndCodeSerializer(serializers.Serializer):
