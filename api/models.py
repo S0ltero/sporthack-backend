@@ -101,6 +101,8 @@ class SectionMember(models.Model):
                                 on_delete=models.CASCADE)
     user = models.ForeignKey(Student, verbose_name=_("Участник"),
                              related_name="section", on_delete=models.CASCADE)
+    rating = models.IntegerField(verbose_name=_("Рейтинг"), default=0, blank=True)
+    pass_trainings = models.IntegerField(verbose_name=_("Пройденные тренировки"), default=0, blank=True)
 
     class Meta:
         verbose_name = _("Участник секции")
