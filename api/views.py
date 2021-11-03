@@ -181,9 +181,9 @@ class SectionTrainingListView(ListAPIView):
     queryset = SectionTraining
     serializer_class = SectionTrainingSerializer
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, pk):
         try:
-            trainings = self.queryset.objects.all()
+            trainings = self.queryset.objects.filter(section=pk)
         except SectionTraining.DoesNotExist:
             return Response(
                 data={"description": "Тренировки не найдены", 
