@@ -17,10 +17,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id", "last_name", "first_name", "middle_name" 
+            "id", "last_name", "first_name", "middle_name",
             "email", "phone", "institution", 
-            "group", "image", "rank"
+            "group", "photo", "rank"
         )
+        extra_kwargs = {
+            'email': {'required': False},
+        }
 
 
 class StudentSerializer(serializers.ModelSerializer):
