@@ -51,11 +51,14 @@ class TrainingMemberSerializer(serializers.ModelSerializer):
 
 
 class SectionTrainingSerializer(serializers.ModelSerializer):
-    members = TrainingMemberSerializer(many=True, read_only=True)
+    members = serializers.SerializerMethodField()
 
     class Meta:
         model = SectionTraining
         fields = "__all__"
+
+    def get_members(self, obj):
+        return [StudentSerializer(m.user).data for m in obj.member.all()]
 
 
 class SectionMemberSerializer(serializers.ModelSerializer):
@@ -73,15 +76,18 @@ class EventMemberSerializer(serializers.ModelSerializer):
 
 
 class SectionEventSerializer(serializers.ModelSerializer):
-    members = EventMemberSerializer(many=True, read_only=True)
+    members = serializers.SerializerMethodField()
 
     class Meta:
         model = SectionEvent
         fields = "__all__"
+    
+    def get_members(self, obj):
+        return [StudentSerializer(m.user).data for m in obj.member.all()]
 
 
 class SectionSerializer(serializers.ModelSerializer):
-    members = SectionMemberSerializer(many=True, read_only=True)
+    members = serializers.SerializerMethodField()
     trainers = TrainerSerializer(many=True, read_only=True)
     trainings = SectionTrainingSerializer(many=True, source="training")
     events = SectionEventSerializer(many=True, source="event")
@@ -90,6 +96,8 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = "__all__"
 
+    def get_members(self, obj):
+        return [StudentSerializer(m.user).data for m in obj.member.all()]
 
 class StudentDetailSerializer(serializers.ModelSerializer):
     sections = SectionMemberSerializer(many=True, read_only=True, source="section")
