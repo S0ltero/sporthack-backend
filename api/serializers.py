@@ -66,6 +66,7 @@ class SectionMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = SectionMember
         fields = "__all__"
+        depth = 1
 
 
 class EventMemberSerializer(serializers.ModelSerializer):
