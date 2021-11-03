@@ -44,12 +44,10 @@ class TrainerSerializer(serializers.ModelSerializer):
 
 
 class TrainingMemberSerializer(serializers.ModelSerializer):
-    user = StudentSerializer(read_only=True)
 
     class Meta:
         model = TrainingMember
         fields = "__all__"
-        depth = 1
 
 
 class SectionTrainingSerializer(serializers.ModelSerializer):
@@ -61,16 +59,13 @@ class SectionTrainingSerializer(serializers.ModelSerializer):
 
 
 class SectionMemberSerializer(serializers.ModelSerializer):
-    user = StudentSerializer(read_only=True)
 
     class Meta:
         model = SectionMember
         fields = "__all__"
-        depth = 1
 
 
 class EventMemberSerializer(serializers.ModelSerializer):
-    user = StudentSerializer(read_only=True)
 
     class Meta:
         model = EventMember
