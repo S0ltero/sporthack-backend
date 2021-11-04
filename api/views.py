@@ -88,6 +88,20 @@ class StudentDetailView(RetrieveAPIView):
         return Response(serializer.data, status=200)
 
 
+class StudentRatingListView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Student
+    serializer_class = StudentSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            students = self.queryset.objects.order_by("-rating")[:10]
+        except Student.DoesNotExist:
+            return Response(data={"description": "Студенты не найдены!", "error": "students_not_found"}, status=404)
+        serializer = self.serializer_class(students, many=True)
+        return Response(serializer.data, status=200)
+
+
 class TrainerView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Trainer
