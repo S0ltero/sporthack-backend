@@ -105,6 +105,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class StudentDetailSerializer(serializers.ModelSerializer):
     sections = serializers.SerializerMethodField()
+    trainings = serializers.SerializerMethodField()
     events = EventMemberSerializer(many=True, read_only=True, source="event")
     pass_trainings_count = serializers.SerializerMethodField()
 
@@ -130,6 +131,16 @@ class StudentDetailSerializer(serializers.ModelSerializer):
             "pass_trainings_count": SectionMember.objects.get(user=obj).pass_trainings
         } for section in queryset]
         return sections
+    
+    def get_trainings(self, obj):
+        queryset = SectionTraining.objects.filter(section__in=obj.section.values_list("section"), is_active=True)
+        trainings = [{
+            "id": training.id,
+            "place": training.place,
+            "datetime": training.datetime.strftime("%H:%M")
+        } for training in queryset]
+        return trainings
+
 
 class EmailAndCodeSerializer(serializers.Serializer):
 
