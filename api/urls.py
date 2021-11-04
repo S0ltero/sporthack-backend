@@ -8,6 +8,7 @@ urlpatterns = [
     path("users/student/<int:pk>", StudentView.as_view(), name="user-student"),
     path("users/student-detail/<int:pk>", StudentDetailView.as_view(), name="user-student-detail"),
     path("reset-password/", ResetPasswordView.as_view(), name='reset-password'),
+    path("rating/", StudentRatingListView.as_view(), name="rating"),
 
     path("sections/", SectionListView.as_view(), name="sections"),
     path("section/<int:pk>", SectionView.as_view(), name="section"),
