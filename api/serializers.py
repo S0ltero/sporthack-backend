@@ -32,7 +32,8 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "email", "photo", "institution", "group", "rating"
+            "email", "photo", "institution", "group", "rating",
+            "is_trainer"
         )
 
 
@@ -42,7 +43,7 @@ class TrainerSerializer(serializers.ModelSerializer):
         model = Trainer
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "email", "phone", "rank", "photo"
+            "email", "phone", "rank", "photo", "is_trainer"
         )
 
 
@@ -111,8 +112,9 @@ class StudentDetailSerializer(serializers.ModelSerializer):
         model = Student
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "email", "photo", "institution", "group", "sections", 
-            "trainings", "events", "pass_trainings_count"
+            "email", "photo", "institution", "group", "is_trainer",
+            "sections", "trainings", "events", "rating", 
+            "pass_trainings_count"
         )
 
     def get_pass_trainings_count(self, obj):
