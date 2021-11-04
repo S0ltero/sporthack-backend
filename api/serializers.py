@@ -32,7 +32,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "email", "photo", "institution", "group"
+            "email", "photo", "institution", "group", "rating"
         )
 
 
