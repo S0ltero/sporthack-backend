@@ -126,9 +126,9 @@ class StudentDetailSerializer(serializers.ModelSerializer):
         sections = [{
             "id": section.id,
             "title": section.title,
-            "count_members": SectionMember.objects.filter(section=section).count(),
-            "rating": SectionMember.objects.get(user=obj).rating,
-            "pass_trainings_count": SectionMember.objects.get(user=obj).pass_trainings
+            "count_members": section.member.count(),
+            "rating": section.member.get(user=obj).rating,
+            "pass_trainings_count": section.member.get(user=obj).pass_trainings
         } for section in queryset]
         return sections
     
