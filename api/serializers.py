@@ -40,6 +40,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class TrainerSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(represent_in_base64=True)
     section_ids = serializers.SerializerMethodField()
 
     class Meta:
