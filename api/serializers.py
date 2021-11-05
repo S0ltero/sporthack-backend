@@ -38,13 +38,17 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class TrainerSerializer(serializers.ModelSerializer):
+    section_ids = serializers.SerializerMethodField()
 
     class Meta:
         model = Trainer
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "email", "phone", "rank", "photo", "is_trainer"
+            "email", "phone", "rank", "photo", "is_trainer", "section_ids"
         )
+
+    def get_section_ids(self, obj):
+        return obj.trainers.values_list("id", flat=True)
 
 
 class TrainingMemberSerializer(serializers.ModelSerializer):
