@@ -31,7 +31,7 @@ class AdminStudent(UserAdmin):
     list_display_links = ("last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": (("first_name", "last_name", "middle_name", "email", "sex", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "email", "sex", "password"))}),
         ("Учебное заведение", {"fields": ("group", "institution")}),
         ("Дополнительная информация", {"fields": ("rating", "last_login", "date_joined")}),
     )
@@ -58,7 +58,7 @@ class AdminTrainer(UserAdmin):
     list_display_links = ("last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name",), "photo", "phone", "email", "sex", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "phone", "email", "sex", "password"))}),
         ("Дополнительная информация", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
