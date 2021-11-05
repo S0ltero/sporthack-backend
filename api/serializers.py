@@ -112,6 +112,7 @@ class SectionSerializer(serializers.ModelSerializer):
         return [StudentSerializer(m.user).data for m in obj.member.all()]
 
 class StudentDetailSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(represent_in_base64=True)
     sections = serializers.SerializerMethodField()
     trainings = serializers.SerializerMethodField()
     events = EventMemberSerializer(many=True, read_only=True, source="event")
