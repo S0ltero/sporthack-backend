@@ -2,6 +2,7 @@ from djoser.serializers import PasswordRetypeSerializer
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
+from drf_extra_fields.fields import Base64ImageField
 
 from .models import (
     User, Student, Trainer, 
@@ -27,6 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(represent_in_base64=True)
 
     class Meta:
         model = Student
@@ -99,6 +101,7 @@ class SectionSerializer(serializers.ModelSerializer):
     trainers = TrainerSerializer(many=True, read_only=True)
     trainings = SectionTrainingSerializer(many=True, source="training")
     events = SectionEventSerializer(many=True, source="event")
+    image = Base64ImageField(represent_in_base64=True)
 
     class Meta:
         model = Section
