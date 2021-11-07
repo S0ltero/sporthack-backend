@@ -79,8 +79,14 @@ class AdminTrainer(UserAdmin):
 @admin.register(Section)
 class AdminSection(admin.ModelAdmin):
     inlines = [SectionMemberList]
-    list_display = ("id", "title")
+    list_display = ("id", "title", "get_trainer")
     list_display_links = ("id", "title")
+
+    @admin.display(description="Тренер")
+    def get_trainer(self, obj):
+        trainer = obj.trainers.first()
+        return f"{trainer.last_name} {trainer.first_name} {trainer.middle_name}"
+
     actions = None
 
 
