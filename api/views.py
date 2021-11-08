@@ -1,4 +1,6 @@
 import random
+import datetime
+import pytz
 
 from django.core.mail import send_mail
 from django.utils import timezone
@@ -207,6 +209,20 @@ class SectionTrainingListView(ListAPIView):
         serializer = self.serializer_class(trainings, many=True)
         return Response(serializer.data, status=200)
 
+    def post(self, request, *args, **kwargs):
+        date = request.data.get("date")
+        dt = datetime.datetime.strptime(date, "%Y-%m-%d")
+        dt = dt.astimezone(pytz.timezone("Europe/Moscow"))
+        try:
+            trainings = self.queryset.objects.filter(datetime__date=dt.date())
+        except SectionTraining.DoesNotExist:
+            return Response(
+                data={"description": "Тренировки не найдены", 
+                      "error": "trainings_not_found"}, 
+                status=404)
+
+        serializer = self.serializer_class(trainings, many=True)
+        return Response(serializer.data, status=200)
 
 class SectionTrainingView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
