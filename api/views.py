@@ -1,6 +1,6 @@
 import random
-import datetime
 import pytz
+from datetime import datetime
 
 from django.core.mail import send_mail
 from django.utils import timezone
@@ -211,7 +211,7 @@ class SectionTrainingListView(ListAPIView):
 
     def post(self, request, *args, **kwargs):
         date = request.data.get("date")
-        dt = datetime.datetime.strptime(date, "%Y-%m-%d")
+        dt = datetime.strptime(date, "%Y-%m-%d")
         dt = dt.astimezone(pytz.timezone("Europe/Moscow"))
         try:
             trainings = self.queryset.objects.filter(datetime__date=dt.date())
