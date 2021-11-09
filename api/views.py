@@ -15,6 +15,7 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.parsers import MultiPartParser
 
 from .models import (
     User, 
@@ -51,6 +52,7 @@ class UserView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User
     serializer_class = UserSerializer
+    parser_classes = (MultiPartParser,)
 
     def update(self, request):
         user = init_user(request)
