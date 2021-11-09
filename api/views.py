@@ -187,6 +187,7 @@ class SectionMemberDeleteView(GenericAPIView):
         try:
             member = self.queryset.objects.get(section_id=section_id, user_id=user_id)
             member.delete()
+            return Response(status=200)
         except SectionMember.DoesNotExist:
             return Response(
                 data={"description": f"Участник: {user_id}, Секции {section_id} не найден!", 
