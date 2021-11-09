@@ -14,6 +14,7 @@ from .models import (
 
 
 class UserSerializer(serializers.ModelSerializer):
+    photo = Base64ImageField(represent_in_base64=True)
 
     class Meta:
         model = User
