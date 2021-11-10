@@ -156,7 +156,8 @@ class StudentDetailSerializer(serializers.ModelSerializer):
 class TokenSerializer(serializers.ModelSerializer):
     auth_token = serializers.CharField(source="key")
     id = serializers.IntegerField(source="user.id")
+    is_trainer = serializers.BooleanField(source="user.is_trainer")
 
     class Meta:
         model = Token
-        fields = ("auth_token", "id")
+        fields = ("auth_token", "id", "is_trainer")
