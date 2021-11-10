@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .managers import UserManager, StudentManager, TrainerManager
+from .managers import UserManager, StudentManager, TrainerManager, AdminManager
 
 
 class User(AbstractUser):
@@ -76,6 +76,15 @@ class Trainer(User):
             return super(Trainer, self).save(*args, **kwargs)
         self.is_trainer = True
         return super().save(self)
+
+
+class Admin(User):
+    objects = AdminManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _("Администратор")
+        verbose_name_plural = _("Администраторы")
 
 
 class Section(models.Model):
