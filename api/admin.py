@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.db.models import Q
 
 from .models import *
 
@@ -47,7 +48,7 @@ class AdminStudent(UserAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.filter(is_trainer=False)
+        return queryset.filter(is_trainer=False, is_staff=False, is_superuser=False)
 
 
 @admin.register(Trainer)
@@ -73,7 +74,33 @@ class AdminTrainer(UserAdmin):
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
-        return queryset.filter(is_trainer=True)
+        return queryset.filter(is_trainer=True, is_staff=False, is_superuser=False)
+
+
+@admin.register(Admin)
+class AdminAdministrator(UserAdmin):
+    actions = None
+    list_display = ("id", "last_name", "first_name", "middle_name", "is_staff", "is_superuser",)
+    list_filter = ("is_staff", "is_superuser")
+    list_display_links = ("last_name", "first_name", "middle_name")
+    readonly_fields = ("password", "last_login", "date_joined")
+    fieldsets = (
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "email", "sex", "password"))}),
+        ("Дополнительная информация", {"fields": ("is_staff", "is_superuser", "last_login", "date_joined")}),
+    )
+    add_fieldsets = (
+        ("Личная информация", {
+            "fields": (("last_name", "first_name", "middle_name"), "sex", "photo", "phone", "rank")}
+         ),
+        ("Учетная информация", {
+             "fields": ("email", "password1", "password2")}
+        )
+    )
+    ordering = ("last_name",)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.filter(Q(is_staff=True) | Q(is_superuser=True))
 
 
 @admin.register(Section)
