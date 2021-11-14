@@ -67,7 +67,6 @@ class TrainingMemberSerializer(serializers.ModelSerializer):
 
 class SectionTrainingSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
-    datetime = serializers.DateTimeField(format="%d-%m-%Y %H:%M")
 
     class Meta:
         model = SectionTraining
