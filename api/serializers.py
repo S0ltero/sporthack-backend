@@ -14,7 +14,7 @@ from .models import (
 
 
 class UserSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True)
+    photo = Base64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = User
@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True)
+    photo = Base64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = Student
@@ -41,9 +41,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class TrainerSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True)
-    section_ids = serializers.SerializerMethodField()
-    section_titles = serializers.SerializerMethodField()
+    photo = Base64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = Trainer
@@ -109,7 +107,7 @@ class SectionDetailSerializer(serializers.ModelSerializer):
     trainers = TrainerSerializer(many=True, read_only=True)
     trainings = SectionTrainingSerializer(many=True, source="training")
     events = SectionEventSerializer(many=True, source="event")
-    image = Base64ImageField(represent_in_base64=True)
+    image = Base64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = Section
@@ -126,7 +124,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True)
+    photo = Base64ImageField(represent_in_base64=True, required=False)
     sections = serializers.SerializerMethodField()
     trainings = serializers.SerializerMethodField()
     events = EventMemberSerializer(many=True, read_only=True, source="event")
