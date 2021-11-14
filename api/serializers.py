@@ -35,6 +35,13 @@ class UserSerializer(serializers.ModelSerializer):
             'email': {'required': False},
         }
 
+    def to_representation(self, instance):
+        image = instance.photo
+        image_base64, image_ext = convert_image_to_base64(image)
+        data = super().to_representation(instance)
+        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        return data
+
 
 class StudentSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(represent_in_base64=True, required=False)
@@ -46,6 +53,13 @@ class StudentSerializer(serializers.ModelSerializer):
             "email", "photo", "institution", "group", "rating",
             "is_trainer"
         )
+
+    def to_representation(self, instance):
+        image = instance.photo
+        image_base64, image_ext = convert_image_to_base64(image)
+        data = super().to_representation(instance)
+        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        return data
 
 
 class TrainerSerializer(serializers.ModelSerializer):
@@ -125,6 +139,13 @@ class SectionDetailSerializer(serializers.ModelSerializer):
 
     def get_members(self, obj):
         return [StudentSerializer(m.user).data for m in obj.member.all()]
+    
+    def to_representation(self, instance):
+        image = instance.image
+        image_base64, image_ext = convert_image_to_base64(image)
+        data = super().to_representation(instance)
+        data['image'] = f"data:image/{image_ext};base64,{image_base64}"
+        return data
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -171,6 +192,13 @@ class StudentDetailSerializer(serializers.ModelSerializer):
             "datetime": training.datetime.strftime("%H:%M")
         } for training in queryset]
         return trainings
+
+    def to_representation(self, instance):
+        image = instance.photo
+        image_base64, image_ext = convert_image_to_base64(image)
+        data = super().to_representation(instance)
+        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        return data
 
 
 class TokenSerializer(serializers.ModelSerializer):
