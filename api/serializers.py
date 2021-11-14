@@ -42,20 +42,23 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class TrainerSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(represent_in_base64=True, required=False)
+    sections = serializers.SerializerMethodField()
 
     class Meta:
         model = Trainer
         fields = (
             "id", "last_name", "first_name", "middle_name",
             "email", "phone", "rank", "photo", "is_trainer",
-            "section_ids", "section_titles"
+            "sections"
         )
 
-    def get_section_ids(self, obj):
-        return obj.trainers.values_list("id", flat=True)
-
-    def get_section_titles(self, obj):
-        return obj.trainers.values_list("title", flat=True)
+    def get_sections(self, obj):
+        sections = [{
+            "id": section.id,
+            "title": section.title,
+            "count_members": section.member.count()
+        } for section in obj.trainers.all()]
+        return sections
 
 
 class TrainingMemberSerializer(serializers.ModelSerializer):
