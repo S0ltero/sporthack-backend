@@ -1,3 +1,5 @@
+import base64
+
 from djoser.serializers import PasswordRetypeSerializer
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -10,6 +12,13 @@ from .models import (
     SectionEvent, EventMember,
     SectionTraining, TrainingMember
 )
+
+
+def convert_image_to_base64(image):
+    with open(image.path, "rb") as f:
+        image_base64 = base64.b64encode(f.read()).decode()
+    image_ext = image.file.name.split(".")[-1]
+    return image_base64, image_ext
 
 
 class UserSerializer(serializers.ModelSerializer):
