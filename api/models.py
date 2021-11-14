@@ -24,10 +24,8 @@ class User(AbstractUser):
             "unique": _("Пользователь с таким email уже существует."),
         },
     )
-    photo = models.ImageField(
+    photo = models.TextField(
         _("Фотография"),
-        upload_to="user/",
-        default="user/no-image.png",
         blank=True,
     )
     middle_name = models.CharField(verbose_name=_("Отчество"), max_length=30, blank=True)
@@ -92,10 +90,8 @@ class Section(models.Model):
                                       related_name="trainers")
     title = models.CharField(_("Название секции"), max_length=255)
     description = models.TextField(_("Описание секции"))
-    image = models.ImageField(
+    image = models.TextField(
         _("Изображение"),
-        upload_to="section/",
-        default="section/no-image.png",
         blank=True,
     )
 
