@@ -52,7 +52,6 @@ class UserView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User
     serializer_class = UserSerializer
-    parser_classes = (MultiPartParser,)
 
     def update(self, request):
         user = init_user(request)
