@@ -8,8 +8,7 @@ from .models import (
     User, Student, Trainer, 
     Section, SectionMember, 
     SectionEvent, EventMember,
-    SectionTraining, TrainingMember,
-    ResetPassCode
+    SectionTraining, TrainingMember
 )
 
 
