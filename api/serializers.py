@@ -118,6 +118,13 @@ class SectionDetailSerializer(serializers.ModelSerializer):
     def get_members(self, obj):
         return [StudentSerializer(m.user).data for m in obj.member.all()]
 
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = ("id", "title")
+
+
 class StudentDetailSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(represent_in_base64=True)
     sections = serializers.SerializerMethodField()

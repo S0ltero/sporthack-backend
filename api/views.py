@@ -28,9 +28,10 @@ from .models import (
 from .serializers import (
     UserSerializer, StudentSerializer,
     StudentDetailSerializer, TrainerSerializer,
-    SectionDetailSerializer, SectionMemberSerializer,
-    SectionEventSerializer, EventMemberSerializer,
-    SectionTrainingSerializer, TrainingMemberSerializer,
+    SectionSerializer, SectionDetailSerializer,
+    SectionMemberSerializer, SectionEventSerializer,
+    EventMemberSerializer, SectionTrainingSerializer, 
+    TrainingMemberSerializer,
    
 )
 from .permissions import IsTrainer
@@ -116,6 +117,21 @@ class TrainerView(RetrieveAPIView):
         except Trainer.DoesNotExist:
             return Response(data={"description": f"Тренер: {pk} не найден!", "error": "trainer_not_found"}, status=404)
         serializer = self.serializer_class(trainer)
+        return Response(serializer.data, status=200)
+
+
+class SectionListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Section
+    serializer_class = SectionSerializer
+
+    def get(self, request, *args, **kwargs):
+        try:
+            sections = self.queryset.objects.all().only('id', 'title')
+        except Section.DoesNotExist:
+            return Response(data={"description": f"Секции не найдены", "error": "sections_not_found"}, status=404)
+        
+        serializer = self.serializer_class(sections, many=True)
         return Response(serializer.data, status=200)
 
 
