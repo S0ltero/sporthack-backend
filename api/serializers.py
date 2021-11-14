@@ -104,7 +104,7 @@ class SectionEventSerializer(serializers.ModelSerializer):
         return [StudentSerializer(m.user).data for m in obj.member.all()]
 
 
-class SectionSerializer(serializers.ModelSerializer):
+class SectionDetailSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
     trainers = TrainerSerializer(many=True, read_only=True)
     trainings = SectionTrainingSerializer(many=True, source="training")

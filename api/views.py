@@ -28,7 +28,7 @@ from .models import (
 from .serializers import (
     UserSerializer, StudentSerializer,
     StudentDetailSerializer, TrainerSerializer,
-    SectionSerializer, SectionMemberSerializer,
+    SectionDetailSerializer, SectionMemberSerializer,
     SectionEventSerializer, EventMemberSerializer,
     SectionTrainingSerializer, TrainingMemberSerializer,
    
@@ -119,10 +119,10 @@ class TrainerView(RetrieveAPIView):
         return Response(serializer.data, status=200)
 
 
-class SectionListView(ListAPIView):
+class SectionDetailListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Section
-    serializer_class = SectionSerializer
+    serializer_class = SectionDetailSerializer
 
     def get(self, request, *args, **kwargs):
         try:
@@ -137,7 +137,7 @@ class SectionListView(ListAPIView):
 class SectionView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Section
-    serializer_class = SectionSerializer
+    serializer_class = SectionDetailSerializer
 
     def retrieve(self, request, pk):
         try:
