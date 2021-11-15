@@ -81,6 +81,13 @@ class TrainerSerializer(serializers.ModelSerializer):
             "count_members": section.member.count()
         } for section in obj.trainers.all()]
         return sections
+    
+    def to_representation(self, instance):
+        image = instance.photo
+        image_base64, image_ext = convert_image_to_base64(image)
+        data = super().to_representation(instance)
+        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        return data
 
 
 class TrainingMemberSerializer(serializers.ModelSerializer):
