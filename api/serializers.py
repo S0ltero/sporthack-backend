@@ -158,7 +158,14 @@ class SectionDetailSerializer(serializers.ModelSerializer):
 class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
-        fields = ("id", "title")
+        fields = ("id", "title", "image")
+    
+    def to_representation(self, instance):
+        image = instance.image
+        image_base64, image_ext = convert_image_to_base64(image)
+        data = super().to_representation(instance)
+        data['image'] = f"data:image/{image_ext};base64,{image_base64}"
+        return data
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
