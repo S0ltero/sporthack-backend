@@ -133,9 +133,8 @@ class SectionEventSerializer(serializers.ModelSerializer):
 
 class SectionDetailSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
-    trainers = TrainerSerializer(many=True, read_only=True)
-    trainings = SectionTrainingSerializer(many=True, source="training")
-    events = SectionEventSerializer(many=True, source="event")
+    trainers = serializers.SerializerMethodField()
+    trainings = serializers.SerializerMethodField()
     image = Base64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
@@ -144,7 +143,30 @@ class SectionDetailSerializer(serializers.ModelSerializer):
 
     def get_members(self, obj):
         return [StudentSerializer(m.user).data for m in obj.member.all()]
+
+    def get_trainers(self, obj):
+        queryset = obj.trainers.all()
+        trainers = TrainerSerializer(queryset, many=True)
+        trainers = ({key: value for key, value in trainer.items() if key != "sections"} for trainer in trainers.data)
+        return trainers
     
+    def get_trainings(self, obj):
+        queryset = obj.training.all()
+        trainings = []
+        for training in queryset:
+            members = (StudentSerializer(m.user).data for m in obj.member.all())
+            keys = ("id", "last_name", "first_name", "middle_name", "photo", "is_trainer")
+            members = ({key: value for key, value in member.items() if key in keys} for member in members)
+            trainings.append({
+                "id": training.id,
+                "datetime": training.datetime,
+                "place": training.place,
+                "duration": training.duration,
+                "is_active": training.is_active,
+                "members": members
+            })
+        return trainings
+
     def to_representation(self, instance):
         image = instance.image
         data = super().to_representation(instance)
