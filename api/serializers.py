@@ -76,6 +76,7 @@ class TrainerSerializer(serializers.ModelSerializer):
         sections = [{
             "id": section.id,
             "title": section.title,
+            "image": convert_image_to_base64(section.image),
             "count_members": section.member.count()
         } for section in obj.trainers.all()]
         return sections
