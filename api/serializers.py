@@ -14,11 +14,11 @@ from .models import (
 )
 
 
-def convert_image_to_base64(image):
+def convert_image_to_base64(image) -> str:
     with open(image.path, "rb") as f:
         image_base64 = base64.b64encode(f.read()).decode()
     image_ext = image.file.name.split(".")[-1]
-    return image_base64, image_ext
+    return f"data:image/{image_ext};base64,{image_base64}"
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,9 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         image = instance.photo
-        image_base64, image_ext = convert_image_to_base64(image)
         data = super().to_representation(instance)
-        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        data['photo'] = convert_image_to_base64(image)
         return data
 
 
@@ -56,9 +55,8 @@ class StudentSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         image = instance.photo
-        image_base64, image_ext = convert_image_to_base64(image)
         data = super().to_representation(instance)
-        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        data['photo'] = convert_image_to_base64(image)
         return data
 
 
@@ -84,9 +82,8 @@ class TrainerSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         image = instance.photo
-        image_base64, image_ext = convert_image_to_base64(image)
         data = super().to_representation(instance)
-        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        data['photo'] = convert_image_to_base64(image)
         return data
 
 
@@ -149,9 +146,8 @@ class SectionDetailSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         image = instance.image
-        image_base64, image_ext = convert_image_to_base64(image)
         data = super().to_representation(instance)
-        data['image'] = f"data:image/{image_ext};base64,{image_base64}"
+        data['image'] = convert_image_to_base64(image)
         return data
 
 
@@ -162,9 +158,8 @@ class SectionSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         image = instance.image
-        image_base64, image_ext = convert_image_to_base64(image)
         data = super().to_representation(instance)
-        data['image'] = f"data:image/{image_ext};base64,{image_base64}"
+        data['image'] = convert_image_to_base64(image)
         return data
 
 
@@ -209,9 +204,8 @@ class StudentDetailSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         image = instance.photo
-        image_base64, image_ext = convert_image_to_base64(image)
         data = super().to_representation(instance)
-        data['photo'] = f"data:image/{image_ext};base64,{image_base64}"
+        data['photo'] = convert_image_to_base64(image)
         return data
 
 
