@@ -4,6 +4,7 @@ from datetime import datetime
 
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
@@ -259,32 +260,34 @@ class SectionTrainingView(RetrieveAPIView):
 
 
 class TrainingMemberCreateView(GenericAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = TrainingMember
     serializer_class = TrainingMemberSerializer
 
     def get(self, request, pk):
-        request.data["user"] = init_user(request).id
+        token = request.COOKIES.get('token')
+        if not token:
+            return HttpResponseRedirect(redirect_to="/login")
+        try:
+            user_id = Token.objects.get(key=request.COOKIES['token']).user_id
+            request.data["user"] = user_id
+        except Token.DoesNotExist:
+            return HttpResponseRedirect(redirect_to="/login")
         try:
             training = SectionTraining.objects.get(id=pk)
+            request.data["training"] = training.id
         except SectionTraining.DoesNotExist:
-            return Response(
-                data={"description": f"Тренировка: {pk} не найдена",
-                      "error": "training_not_found"},
-                status=404
-            )
+            return HttpResponseRedirect(redirect_to="/profile")
         if training.datetime < timezone.now():
-            return Response(
-                data={"description": "Невозможно добавление участника к прошедшей тренировке",
-                      "error": "training_is_expired"},
-                status=400
-            )
+            timedelta = timezone.now() - training.datetime
+            diff_hours = timedelta.total_seconds() // 60 // 60
+            if diff_hours >= 3:
+                return HttpResponseRedirect(redirect_to="/profile")
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
-            return Response(serializer.data, status=201)
+            return HttpResponseRedirect(redirect_to="/profile")
         else:
-            return Response(serializer.errors, status=400)
+            return HttpResponseRedirect(redirect_to="/profile")
 
 
 class TrainingMemberDeleteView(GenericAPIView):
