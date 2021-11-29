@@ -373,22 +373,3 @@ class EventMemberDeleteView(GenericAPIView):
                       "error": "event_member_not_found"}, 
                 status=404
             )
-
-
-class ResetPasswordView(CreateAPIView):
-
-    def create(self, request):
-        data = request.data
-
-        try:
-            user = User.objects.get(email=data.get("email"))
-        except User.DoesNotExist as e:
-            return Response(data={"description": f"{e}", "error": "user_not_found"}, status=404)
-
-        if user.is_authenticated:
-            return Response(data={'description': "Указанный пользователь аунтентифицирован", "error": "user_is_authenticated"}, status=400)
-
-        code = random.randint(1000, 9999)
-        ResetPassCode.objects.create(user=user, code=code)
-        send_mail(f'SportHack | Сброс пароля', f'Ваш код для сброса пароля: {code}',  from_email="ecomap@gmail.com", recipient_list=[user.email])
-        return Response(status=202)
