@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
@@ -9,3 +8,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path("api/", include("api.urls"))
 ]
+
+handler404 = "api.views.handler404"
+

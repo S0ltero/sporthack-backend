@@ -1,10 +1,9 @@
-import random
 import pytz
 from datetime import datetime
 
-from django.core.mail import send_mail
 from django.utils import timezone
-from django.http import HttpResponseRedirect
+from django.template.loader import get_template
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
@@ -372,3 +371,8 @@ class EventMemberDeleteView(GenericAPIView):
                       "error": "event_member_not_found"}, 
                 status=404
             )
+
+
+def handler404(request, exception):
+    template = get_template("error/404.html")
+    return HttpResponseNotFound(template.render())
