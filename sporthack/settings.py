@@ -114,6 +114,9 @@ DJOSER = {
     'SERIALIZERS': {
         'token': 'api.serializers.TokenSerializer',
     },
+    'EMAIL': {
+        'password_reset': 'api.email.PasswordResetEmail',
+    }
 }
 
 SIMPLE_JWT = {
