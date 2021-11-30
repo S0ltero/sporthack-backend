@@ -190,18 +190,3 @@ class TrainingMember(models.Model):
     
     def __str__(self):
         return f"{self.user.last_name} {self.user.first_name}"
-
-
-class ResetPassCode(models.Model):
-    user = models.ForeignKey(
-        User,
-        verbose_name=_("Пользователь"),
-        related_name="reset_code",
-        on_delete=models.CASCADE,
-    )
-    code = models.IntegerField(verbose_name=_("Код сброса пароля"))
-    expired_at = models.DateTimeField(verbose_name=_("Время истечения"), default=timezone.now)
-
-    def save(self, *args, **kwargs):
-        self.expired_at = timezone.now() + timezone.timedelta(minutes=30)
-        super(ResetPassCode, self).save()

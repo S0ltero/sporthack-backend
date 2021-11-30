@@ -23,7 +23,6 @@ from .models import (
     Section, SectionMember,
     SectionEvent, EventMember,
     SectionTraining, TrainingMember,
-    ResetPassCode
 )
 from .serializers import (
     UserSerializer, StudentSerializer,
