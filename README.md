@@ -20,9 +20,9 @@ python3 -m venv venv
 ```pip install -r requirements.txt```
 
 ## Конфигурация
-Создайте папку ```local```
-В нее поместите файл ```config.json```
-в ```config.json``` Запишем следующее:
+* Создайте папку: ```local```
+* Внутри папки создайте файл: ```config.json```
+* Внутрь файла ```config.json``` запишите следующее:
 ```
 {
     "secret_key": "",
