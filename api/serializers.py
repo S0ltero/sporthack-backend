@@ -1,9 +1,7 @@
 import base64
 
-from djoser.serializers import PasswordRetypeSerializer
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from rest_framework.exceptions import ValidationError
 from drf_extra_fields.fields import Base64ImageField
 
 from .models import (
