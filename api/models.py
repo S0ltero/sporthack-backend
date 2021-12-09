@@ -64,6 +64,32 @@ class Student(User):
         verbose_name_plural = _("Студенты")
 
 
+class StudentAward(models.Model):
+    CATEGORY_CHOICES = [
+        ("institute", "Институтский"),
+        ("university", "Университетсткий"),
+        ("interuniversity", "Межуниверситетский"),
+        ("district", "Районный"),
+        ("city", "Городской"),
+        ("regional", "Областной"),
+        ("all-russia", "Всероссийский")
+    ]
+
+    user = models.ForeignKey(Student, related_name="awards", related_query_name="award", on_delete=models.CASCADE)
+    file = models.FileField(
+        verbose_name=_("Изображение награды"), 
+        upload_to="user/", 
+        validators=[validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf'])]
+    )
+    title = models.CharField(verbose_name=_("Название награды"), max_length=100)
+    category = models.CharField(verbose_name=_("Категория награды"), max_length=100, choices=CATEGORY_CHOICES)
+    verified = models.BooleanField(verbose_name=_("Проверено"), default=False)
+
+    class Meta:
+        verbose_name = _("Награда")
+        verbose_name_plural = _("Награды")
+
+
 class Trainer(User):
     objects = TrainerManager()
     class Meta:
