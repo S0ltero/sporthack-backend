@@ -107,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 DJOSER = {
+    'TOKEN_MODEL': 'knox.models.AuthToken',
     'PASSWORD_RESET_CONFIRM_URL': '/reset-confirm/{uid}/{token}',
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
