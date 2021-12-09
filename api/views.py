@@ -21,15 +21,15 @@ from knox.auth import TokenAuthentication
 
 from .models import (
     User, 
-    Student, Trainer, 
+    Student, Trainer, StudentAward,
     Section, SectionMember,
     SectionEvent, EventMember,
     SectionTraining, TrainingMember,
 )
 from .serializers import (
     UserSerializer, StudentSerializer,
-    StudentDetailSerializer, TrainerSerializer,
-    SectionSerializer, SectionDetailSerializer,
+    StudentDetailSerializer, StudentAwardSerializer,
+    TrainerSerializer, SectionSerializer, SectionDetailSerializer,
     SectionMemberSerializer, SectionEventSerializer,
     EventMemberSerializer, SectionTrainingSerializer, 
     TrainingMemberSerializer, LoginSerializer
