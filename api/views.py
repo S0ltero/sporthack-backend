@@ -80,6 +80,22 @@ class StudentDetailView(RetrieveAPIView):
         return Response(serializer.data, status=200)
 
 
+class StudentAwardCreateView(CreateAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [IsAuthenticated]
+    queryset = StudentAward
+    serializer_class = StudentAwardSerializer
+
+    def create(self, request, *args, **kwargs):
+        request.data["user"] = request.user.id
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
+
 class StudentRatingListView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Student
