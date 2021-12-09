@@ -7,10 +7,16 @@ from rest_framework.authtoken.models import Token
 from drf_extra_fields.fields import Base64ImageField
 
 from .models import (
-    User, Student, Trainer, 
-    Section, SectionMember, 
-    SectionEvent, EventMember,
-    SectionTraining, TrainingMember
+    User,
+    Student,
+    Trainer,
+    StudentAward,
+    Section,
+    SectionMember,
+    SectionEvent,
+    EventMember,
+    SectionTraining,
+    TrainingMember
 )
 
 
