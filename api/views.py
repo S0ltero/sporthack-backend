@@ -15,8 +15,8 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from knox.views import LoginView as KnoxLoginView
+from knox.auth import TokenAuthentication
 
 from .models import (
     User, 
@@ -36,28 +36,16 @@ from .serializers import (
 from .permissions import IsTrainer
 
 
-def init_user(request):
-    """
-        Получение пользователя по токену
-    """
-    user_id = Token.objects.get(key=request.headers.get("Authorization").replace("Token ", "")).user_id
-    try:
-        user = User.objects.get(id=user_id)
-        return user
-    except User.DoesNotExist:
-        return None
-
-
 class UserView(UpdateAPIView):
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated]
     queryset = User
     serializer_class = UserSerializer
 
     def update(self, request):
-        user = init_user(request)
-        serializer = self.serializer_class(instance=user, data=request.data)
+        serializer = self.serializer_class(instance=request.user, data=request.data)
         if serializer.is_valid(raise_exception=False):
-            serializer.update(user, serializer.validated_data)
+            serializer.update(request.user, serializer.validated_data)
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=400)
@@ -176,12 +164,13 @@ class SectionView(RetrieveUpdateDestroyAPIView):
 
 
 class SectionMemberCreateView(CreateAPIView):
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated]
     queryset = SectionMember
     serializer_class = SectionMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["user"] = init_user(request).id
+        request.data["user"] = request.user
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
@@ -327,12 +316,13 @@ class SectionEventListView(ListAPIView):
 
 
 class EventMemberCreateView(CreateAPIView):
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [IsAuthenticated]
     queryset = EventMember
     serializer_class = EventMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["user"] = init_user(request).id
+        request.data["user"] = request.user
         try:
             event = SectionTraining.objects.get(id=request.data.get("event"))
         except SectionTraining.DoesNotExist:
