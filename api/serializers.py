@@ -202,7 +202,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class StudentDetailSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(represent_in_base64=True, required=False)
-    awards = StudentAwardSerializer(many=True, read_only=True)
+    awards = serializers.SerializerMethodField()
     sections = serializers.SerializerMethodField()
     trainings = serializers.SerializerMethodField()
     events = EventMemberSerializer(many=True, read_only=True, source="event")
@@ -239,6 +239,11 @@ class StudentDetailSerializer(serializers.ModelSerializer):
             "datetime": timezone.make_naive(training.datetime).strftime("%H:%M")
         } for training in queryset]
         return trainings
+
+    def get_awards(self, obj):
+        queryset = obj.awards.filter(verified=True)
+        serializer = StudentAwardSerializer(queryset, many=True)
+        return serializer.data
 
     def to_representation(self, instance):
         image = instance.photo
