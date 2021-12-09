@@ -15,6 +15,7 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from rest_framework import HTTP_HEADER_ENCODING
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication
 
@@ -248,18 +249,16 @@ class SectionTrainingView(RetrieveAPIView):
 
 
 class TrainingMemberCreateView(GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
     queryset = TrainingMember
     serializer_class = TrainingMemberSerializer
 
     def get(self, request, pk):
-        token = request.COOKIES.get('token')
-        if not token:
+        token = request.COOKIES.get('token').encode(HTTP_HEADER_ENCODING)
+        user, token = TokenAuthentication().authenticate_credentials(token=token)
+        if not user:
             return HttpResponseRedirect(redirect_to="/login")
-        try:
-            user_id = Token.objects.get(key=request.COOKIES['token']).user_id
-            request.data["user"] = user_id
-        except Token.DoesNotExist:
-            return HttpResponseRedirect(redirect_to="/login")
+        request.data["user"] = user.id
         try:
             training = SectionTraining.objects.get(id=pk)
             request.data["training"] = training.id
