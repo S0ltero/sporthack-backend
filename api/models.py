@@ -75,7 +75,13 @@ class StudentAward(models.Model):
         ("all-russia", "Всероссийский")
     ]
 
-    user = models.ForeignKey(Student, related_name="awards", related_query_name="award", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        Student,
+        verbose_name=_("Студент"),
+        related_name="awards",
+        related_query_name="award", 
+        on_delete=models.CASCADE
+    )
     file = models.FileField(
         verbose_name=_("Изображение награды"), 
         upload_to="user/", 
