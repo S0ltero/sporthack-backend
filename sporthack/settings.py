@@ -29,8 +29,8 @@ INSTALLED_APPS = [
 
     # Modules
     'rest_framework',
-    'rest_framework.authtoken',
     'djoser',
+    'knox',
     'corsheaders',
     'phonenumber_field',
 
