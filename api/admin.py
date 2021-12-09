@@ -24,6 +24,12 @@ class EventMemberList(admin.StackedInline):
     classes = ["collapse"]
 
 
+class StudentAwardList(admin.StackedInline):
+    model = StudentAward
+    extra = 0
+    classes = ["collapse"]
+
+
 @admin.register(Student)
 class AdminStudent(UserAdmin):
     actions = None
