@@ -57,6 +57,16 @@ class AdminStudent(UserAdmin):
         return queryset.filter(is_trainer=False, is_staff=False, is_superuser=False)
 
 
+@admin.register(StudentAward)
+class AdminStudentAward(admin.ModelAdmin):
+    actions = None
+    list_display = ("id", "user", "title", "category", "verified")
+    list_filter = ("category", "verified")
+    list_display_links = ("title",)
+    fields = ("user", "title", "category", "verified")
+    ordering = ("verified",)
+
+
 @admin.register(Trainer)
 class AdminTrainer(UserAdmin):
     actions = None
