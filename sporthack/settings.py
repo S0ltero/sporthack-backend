@@ -158,6 +158,16 @@ PHONENUMBER_DB_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'RU'
 
+# Email settings
+DEFAULT_FROM_EMAIL = config.get('email_user')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config.get('email_host')
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_PORT = config.get('email_port')
+EMAIL_HOST_USER = config.get('email_user')
+EMAIL_HOST_PASSWORD = config.get('email_password')
+
 # Internationalization
 
 LANGUAGE_CODE = 'ru'
