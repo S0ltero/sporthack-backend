@@ -1,6 +1,7 @@
 import pytz
 from datetime import datetime
 
+from django.contrib.auth import login
 from django.utils import timezone
 from django.template.loader import get_template
 from django.http import HttpResponseRedirect, HttpResponseNotFound
@@ -12,9 +13,10 @@ from rest_framework.generics import (
     ListAPIView,
     GenericAPIView
 )
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from knox.views import LoginView as KnoxLoginView
 
 from .models import (
     User, 
@@ -29,8 +31,7 @@ from .serializers import (
     SectionSerializer, SectionDetailSerializer,
     SectionMemberSerializer, SectionEventSerializer,
     EventMemberSerializer, SectionTrainingSerializer, 
-    TrainingMemberSerializer,
-   
+    TrainingMemberSerializer, LoginSerializer
 )
 from .permissions import IsTrainer
 
@@ -371,6 +372,34 @@ class EventMemberDeleteView(GenericAPIView):
                       "error": "event_member_not_found"}, 
                 status=404
             )
+
+
+class LoginAPI(KnoxLoginView):
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        login(request, user)
+        return super(LoginAPI, self).post(request)
+    
+    def get_post_response_data(self, request, token, instance):
+        UserSerializer = self.get_user_serializer_class()
+
+        data = {
+            "expiry": self.format_expiry_datetime(instance.expiry),
+            "auth_token": token
+        }
+        if UserSerializer is not None:
+            user = UserSerializer(
+                request.user,
+                context=self.get_context()
+            ).data
+            data["id"] = user["id"]
+            data["is_trainer"] = user["is_trainer"]
+        return data
 
 
 def handler404(request, exception):
