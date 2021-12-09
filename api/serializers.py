@@ -1,5 +1,6 @@
 import base64
 
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from drf_extra_fields.fields import Base64ImageField
@@ -157,12 +158,13 @@ class SectionDetailSerializer(serializers.ModelSerializer):
             members = ({key: value for key, value in member.items() if key in keys} for member in members)
             trainings.append({
                 "id": training.id,
-                "datetime": training.datetime,
+                "datetime": timezone.make_naive(training.datetime),
                 "place": training.place,
                 "duration": training.duration,
                 "is_active": training.is_active,
                 "members": members
             })
+        trainings = sorted(trainings, key=lambda x: x["datetime"])
         return trainings
 
     def to_representation(self, instance):
@@ -219,7 +221,7 @@ class StudentDetailSerializer(serializers.ModelSerializer):
         trainings = [{
             "id": training.id,
             "place": training.place,
-            "datetime": training.datetime.strftime("%H:%M")
+            "datetime": timezone.make_naive(training.datetime).strftime("%H:%M")
         } for training in queryset]
         return trainings
 
