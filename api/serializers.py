@@ -66,6 +66,13 @@ class StudentSerializer(serializers.ModelSerializer):
         return data
 
 
+class StudentAwardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StudentAward
+        fields = "__all__"
+
+
 class TrainerSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(represent_in_base64=True, required=False)
     sections = serializers.SerializerMethodField()
