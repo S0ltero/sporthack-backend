@@ -202,6 +202,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class StudentDetailSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(represent_in_base64=True, required=False)
+    awards = StudentAwardSerializer(many=True, read_only=True)
     sections = serializers.SerializerMethodField()
     trainings = serializers.SerializerMethodField()
     events = EventMemberSerializer(many=True, read_only=True, source="event")
@@ -213,7 +214,7 @@ class StudentDetailSerializer(serializers.ModelSerializer):
             "id", "last_name", "first_name", "middle_name",
             "email", "photo", "institution", "group", "is_trainer",
             "sections", "trainings", "events", "rating", 
-            "pass_trainings_count"
+            "pass_trainings_count", "awards"
         )
 
     def get_pass_trainings_count(self, obj):
