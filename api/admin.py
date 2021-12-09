@@ -33,6 +33,7 @@ class StudentAwardList(admin.StackedInline):
 @admin.register(Student)
 class AdminStudent(UserAdmin):
     actions = None
+    inlines = [StudentAwardList]
     list_display = ("id", "last_name", "first_name", "middle_name", "institution", "group", "is_active")
     list_filter = ("is_active",)
     list_display_links = ("last_name", "first_name", "middle_name")
