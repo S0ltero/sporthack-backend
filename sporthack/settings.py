@@ -73,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sporthack.wsgi.application'
 
-
 # Database
 
 DATABASES = {
