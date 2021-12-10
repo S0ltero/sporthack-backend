@@ -31,6 +31,7 @@ python3 -m venv venv
     "host": "",
     "password": "",
     "port": "",
+    "site_domain": "example.com",
 
     "email_host": "",
     "email_port": ,
