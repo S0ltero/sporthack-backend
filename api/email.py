@@ -16,3 +16,15 @@ class PasswordResetEmail(BaseEmailMessage):
         context["token"] = default_token_generator.make_token(user)
         context["url"] = settings.PASSWORD_RESET_CONFIRM_URL.format(**context)
         return context
+
+
+class AwardSuccessVerified(BaseEmailMessage):
+    """Email for sending to user if him award 
+    is successfully verified by administation"""
+    template_name = "email/award/accept.html"
+
+
+class AwardNoVerified(BaseEmailMessage):
+    """Email for sending to user if him award 
+    is not verified by administation"""
+    template_name = "email/award/noaccept.html"
