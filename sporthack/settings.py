@@ -13,8 +13,8 @@ except IOError:
 
 SECRET_KEY = str(config['secret_key'])
 
-DEBUG = True
-ALLOWED_HOSTS = []
+# Custom settings
+SITE_DOMAIN = config.get("site_domain", "example.com")
 
 # Application definition
 
