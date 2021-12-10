@@ -5,6 +5,7 @@ from djoser import utils
 from djoser.conf import settings
 
 class PasswordResetEmail(BaseEmailMessage):
+    """Email for sending if requested password reset by user"""
     template_name = "email/password_reset.html"
 
     def get_context_data(self):
