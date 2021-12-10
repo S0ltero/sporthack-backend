@@ -83,8 +83,7 @@ class StudentAward(models.Model):
     )
     file = models.FileField(
         verbose_name=_("Изображение награды"), 
-        upload_to="user/", 
-        validators=[validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf'])]
+        upload_to="user/"
     )
     title = models.CharField(verbose_name=_("Название награды"), max_length=100)
     category = models.CharField(verbose_name=_("Категория награды"), max_length=100, choices=CATEGORY_CHOICES)
