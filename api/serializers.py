@@ -37,7 +37,7 @@ class CustomBase64ImageField(Base64ImageField):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True, required=False)
+    photo = CustomBase64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = User
@@ -50,15 +50,9 @@ class UserSerializer(serializers.ModelSerializer):
             'email': {'required': False},
         }
 
-    def to_representation(self, instance):
-        image = instance.photo
-        data = super().to_representation(instance)
-        data['photo'] = convert_image_to_base64(image)
-        return data
-
 
 class StudentSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True, required=False)
+    photo = CustomBase64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = Student
@@ -67,12 +61,6 @@ class StudentSerializer(serializers.ModelSerializer):
             "email", "photo", "institution", "group", "rating",
             "is_trainer"
         )
-
-    def to_representation(self, instance):
-        image = instance.photo
-        data = super().to_representation(instance)
-        data['photo'] = convert_image_to_base64(image)
-        return data
 
 
 class StudentAwardSerializer(serializers.ModelSerializer):
@@ -83,7 +71,7 @@ class StudentAwardSerializer(serializers.ModelSerializer):
 
 
 class TrainerSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True, required=False)
+    photo = CustomBase64ImageField(represent_in_base64=True, required=False)
     sections = serializers.SerializerMethodField()
 
     class Meta:
@@ -95,19 +83,12 @@ class TrainerSerializer(serializers.ModelSerializer):
         )
 
     def get_sections(self, obj):
-        sections = [{
-            "id": section.id,
-            "title": section.title,
-            "image": convert_image_to_base64(section.image),
-            "count_members": section.member.count()
-        } for section in obj.trainers.all()]
+        sections = []
+        for section in obj.trainers.all():
+            data = SectionSerializer(section).data
+            data["count_members"] = section.member.count()
+            sections.append(data)
         return sections
-    
-    def to_representation(self, instance):
-        image = instance.photo
-        data = super().to_representation(instance)
-        data['photo'] = convert_image_to_base64(image)
-        return data
 
 
 class TrainingMemberSerializer(serializers.ModelSerializer):
@@ -157,7 +138,7 @@ class SectionDetailSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
     trainers = serializers.SerializerMethodField()
     trainings = serializers.SerializerMethodField()
-    image = Base64ImageField(represent_in_base64=True, required=False)
+    image = CustomBase64ImageField(represent_in_base64=True, required=False)
 
     class Meta:
         model = Section
@@ -190,27 +171,17 @@ class SectionDetailSerializer(serializers.ModelSerializer):
         trainings = sorted(trainings, key=lambda x: x["datetime"])
         return trainings
 
-    def to_representation(self, instance):
-        image = instance.image
-        data = super().to_representation(instance)
-        data['image'] = convert_image_to_base64(image)
-        return data
-
 
 class SectionSerializer(serializers.ModelSerializer):
+    image = CustomBase64ImageField(represent_in_base64=True, required=False)
+
     class Meta:
         model = Section
         fields = ("id", "title", "image")
-    
-    def to_representation(self, instance):
-        image = instance.image
-        data = super().to_representation(instance)
-        data['image'] = convert_image_to_base64(image)
-        return data
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(represent_in_base64=True, required=False)
+    photo = CustomBase64ImageField(represent_in_base64=True, required=False)
     awards = serializers.SerializerMethodField()
     sections = serializers.SerializerMethodField()
     trainings = serializers.SerializerMethodField()
@@ -253,12 +224,6 @@ class StudentDetailSerializer(serializers.ModelSerializer):
         queryset = obj.awards.filter(verified=True)
         serializer = StudentAwardSerializer(queryset, many=True)
         return serializer.data
-
-    def to_representation(self, instance):
-        image = instance.photo
-        data = super().to_representation(instance)
-        data['photo'] = convert_image_to_base64(image)
-        return data
 
 
 class LoginSerializer(serializers.Serializer):
