@@ -3,8 +3,7 @@ import base64
 from django.contrib.auth import authenticate
 from django.utils import timezone
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
-from drf_extra_fields.fields import Base64ImageField
+from drf_extra_fields.fields import Base64ImageField, Base64FieldMixin
 
 from .models import (
     User,
@@ -20,11 +19,21 @@ from .models import (
 )
 
 
-def convert_image_to_base64(image) -> str:
-    with open(image.path, "rb") as f:
-        image_base64 = base64.b64encode(f.read()).decode()
-    image_ext = image.file.name.split(".")[-1]
-    return f"data:image/{image_ext};base64,{image_base64}"
+class CustomBase64ImageField(Base64ImageField):
+    def to_representation(self, file):
+        if self.represent_in_base64:
+            if not file:
+                return ""
+
+            try:
+                with open(file.path, "rb") as f:
+                    extenstion = file.file.name.split(".")[-1]
+                    base64_str = base64.b64encode(f.read()).decode()
+                    return f"data:image/{extenstion};base64,{base64_str}"
+            except Exception:
+                raise IOError("Error encoding file")
+        else:
+            return super(Base64FieldMixin, self).to_representation(file)
 
 
 class UserSerializer(serializers.ModelSerializer):
