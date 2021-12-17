@@ -63,7 +63,7 @@ class AdminStudentAward(admin.ModelAdmin):
     list_display = ("id", "user", "title", "category", "verified")
     list_filter = ("category", "verified")
     list_display_links = ("title",)
-    fields = ("user", "title", "category", "verified")
+    fields = ("user", "title", "category", "file", "verified")
     ordering = ("verified",)
 
 
