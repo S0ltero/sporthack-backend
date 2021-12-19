@@ -270,7 +270,10 @@ class TrainingMemberCreateView(GenericAPIView):
     serializer_class = TrainingMemberSerializer
 
     def get(self, request, pk):
-        token = request.COOKIES.get('token').encode(HTTP_HEADER_ENCODING)
+        token = request.COOKIES.get('token')
+        if not token:
+           return HttpResponseRedirect(redirect_to="/login") 
+        token = token.encode(HTTP_HEADER_ENCODING)
         user, token = TokenAuthentication().authenticate_credentials(token=token)
         if not user:
             return HttpResponseRedirect(redirect_to="/login")
