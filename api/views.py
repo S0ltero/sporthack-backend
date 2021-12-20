@@ -326,6 +326,7 @@ class SectionEventListView(ListAPIView):
             for key, value in request.data.items():
                 if value:
                     events = events.filter(**{key: value})
+                    events = events.order_by('datetime')
             serializer = self.serializer_class(events, many=True)
             return Response(serializer.data, status=200)
         except SectionEvent.DoesNotExist:
