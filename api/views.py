@@ -87,8 +87,9 @@ class StudentAwardCreateView(CreateAPIView):
     serializer_class = StudentAwardSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["user"] = request.user.id
-        serializer = self.serializer_class(data=request.data)
+        data = request.data.copy()
+        data["user"] = request.user.id
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
             return Response(serializer.data, status=201)
@@ -187,8 +188,9 @@ class SectionMemberCreateView(CreateAPIView):
     serializer_class = SectionMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["user"] = request.user
-        serializer = self.serializer_class(data=request.data)
+        data = request.data.copy()
+        data["user"] = request.user.id
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
             return Response(serializer.data, status=201)
@@ -340,7 +342,8 @@ class EventMemberCreateView(CreateAPIView):
     serializer_class = EventMemberSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data["user"] = request.user
+        data = request.data.copy()
+        data["user"] = request.user
         try:
             event = SectionTraining.objects.get(id=request.data.get("event"))
         except SectionTraining.DoesNotExist:
@@ -355,7 +358,7 @@ class EventMemberCreateView(CreateAPIView):
                       "error": "event_is_expired"},
                 status=400
             )
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
             return Response(serializer.data, status=201)
