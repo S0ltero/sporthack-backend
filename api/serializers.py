@@ -154,7 +154,7 @@ class SectionDetailSerializer(serializers.ModelSerializer):
         return trainers
     
     def get_trainings(self, obj):
-        queryset = obj.training.all()
+        queryset = obj.training.order_by("datetime")
         trainings = []
         for training in queryset:
             members = (StudentSerializer(m.user).data for m in obj.member.all())
@@ -168,7 +168,6 @@ class SectionDetailSerializer(serializers.ModelSerializer):
                 "is_active": training.is_active,
                 "members": members
             })
-        trainings = sorted(trainings, key=lambda x: x["datetime"])
         return trainings
 
 
