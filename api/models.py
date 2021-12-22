@@ -8,12 +8,6 @@ from .managers import UserManager, StudentManager, TrainerManager, AdminManager
 
 
 class User(AbstractUser):
-
-    SEX_CHOICES = [
-        ("MEN", "Мужской"),
-        ("WOMEN", "Женский")
-    ]
-
     username = None
     email = models.EmailField(
         _("Email адрес"),
@@ -30,7 +24,6 @@ class User(AbstractUser):
         blank=True,
     )
     middle_name = models.CharField(verbose_name=_("Отчество"), max_length=30, blank=True)
-    sex = models.CharField(verbose_name=_("Пол"), max_length=5, choices=SEX_CHOICES)
 
     # Student unique fields
     institution = models.TextField(verbose_name=_("Учебное заведение"), blank=True)

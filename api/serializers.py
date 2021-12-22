@@ -43,12 +43,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id", "last_name", "first_name", "middle_name",
-            "sex", "email", "phone", "institution", 
+            "email", "phone", "institution", 
             "group", "photo", "rank", "is_trainer"
         )
-        extra_kwargs = {
-            'email': {'required': False},
-        }
 
 
 class StudentSerializer(serializers.ModelSerializer):

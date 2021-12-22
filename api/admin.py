@@ -38,13 +38,13 @@ class AdminStudent(UserAdmin):
     list_display_links = ("last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "email", "sex", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "email", "password"))}),
         ("Учебное заведение", {"fields": ("group", "institution")}),
         ("Дополнительная информация", {"fields": ("rating", "last_login", "date_joined")}),
     )
     add_fieldsets = (
         ("Личная информация", {
-            "fields": (("last_name", "first_name", "middle_name"), "photo", "sex")}
+            "fields": (("last_name", "first_name", "middle_name"), "photo")}
          ),
         ("Учетная информация", {
              "fields": ("email", "password1", "password2")}
@@ -75,12 +75,12 @@ class AdminTrainer(UserAdmin):
     list_display_links = ("last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "phone", "email", "sex", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "phone", "email", "password"))}),
         ("Дополнительная информация", {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = (
         ("Личная информация", {
-            "fields": (("last_name", "first_name", "middle_name"), "sex", "photo", "phone", "rank")}
+            "fields": (("last_name", "first_name", "middle_name"), "photo", "phone", "rank")}
          ),
         ("Учетная информация", {
              "fields": ("email", "password1", "password2")}
@@ -101,12 +101,12 @@ class AdminAdministrator(UserAdmin):
     list_display_links = ("last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "email", "sex", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "email", "password"))}),
         ("Дополнительная информация", {"fields": ("is_staff", "is_superuser", "last_login", "date_joined")}),
     )
     add_fieldsets = (
         ("Личная информация", {
-            "fields": (("last_name", "first_name", "middle_name"), "sex", "photo", "phone", "rank")}
+            "fields": (("last_name", "first_name", "middle_name"), "photo", "phone", "rank")}
          ),
         ("Учетная информация", {
              "fields": ("email", "password1", "password2")}
