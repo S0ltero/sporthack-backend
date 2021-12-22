@@ -2,9 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core import validators
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .managers import UserManager, StudentManager, TrainerManager, AdminManager
+from .email import AwardNoVerified
 
 
 class User(AbstractUser):
@@ -85,6 +86,12 @@ class StudentAward(models.Model):
     class Meta:
         verbose_name = _("Награда")
         verbose_name_plural = _("Награды")
+
+    def delete(self):
+        context = {"award_title": self.title, "domain": settings.SITE_DOMAIN}
+        to = [self.user.email]
+        AwardNoVerified(context=context).send(to)
+        return super().delete()
 
 
 class Trainer(User):

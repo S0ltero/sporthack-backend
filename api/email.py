@@ -1,8 +1,11 @@
 from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode
 from templated_mail.mail import BaseEmailMessage
+from django.conf import settings
 
-from djoser import utils
-from djoser.conf import settings
+def encode_uid(pk):
+    return force_str(urlsafe_base64_encode(force_bytes(pk)))
 
 class PasswordResetEmail(BaseEmailMessage):
     """Email for sending if requested password reset by user"""
@@ -12,9 +15,9 @@ class PasswordResetEmail(BaseEmailMessage):
         context = super().get_context_data()
 
         user = context.get("user")
-        context["uid"] = utils.encode_uid(user.pk)
+        context["uid"] = encode_uid(user.pk)
         context["token"] = default_token_generator.make_token(user)
-        context["url"] = settings.PASSWORD_RESET_CONFIRM_URL.format(**context)
+        context["url"] = settings.DJOSER["PASSWORD_RESET_CONFIRM_URL"].format(**context)
         return context
 
 
