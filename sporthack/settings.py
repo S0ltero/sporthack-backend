@@ -114,7 +114,8 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': False,
     'LOGIN_FIELD': "email",
     'SERIALIZERS': {
-        'user_create': 'api.serializers.UserSerializer'
+        'user_create': 'api.serializers.UserSerializer',
+        'user_create_password_retype': 'api.serializers.UserSerializer'
     },
     'EMAIL': {
         'password_reset': 'api.email.PasswordResetEmail',
