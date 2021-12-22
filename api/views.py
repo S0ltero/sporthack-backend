@@ -44,7 +44,7 @@ class UserView(UpdateAPIView):
     serializer_class = UserSerializer
 
     def update(self, request):
-        serializer = self.serializer_class(instance=request.user, data=request.data)
+        serializer = self.serializer_class(instance=request.user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=False):
             serializer.update(request.user, serializer.validated_data)
             return Response(serializer.data, status=200)
