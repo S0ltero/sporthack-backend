@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 
+from .managers import StudentManager, TrainerManager, AdminManager
 from .email import AwardNoVerified
 
 
@@ -24,6 +25,8 @@ class User(AbstractUser):
         default="user/no-image.png",
         blank=True,
     )
+    first_name = models.CharField(_('first name'), max_length=150)
+    last_name = models.CharField(_('last name'), max_length=150)
     middle_name = models.CharField(verbose_name=_("Отчество"), max_length=30, blank=True)
 
     # Student unique fields
@@ -37,9 +40,7 @@ class User(AbstractUser):
     is_trainer = models.BooleanField(verbose_name=_("Тренер"), default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ("first_name", "last_name")
-
-    objects = UserManager()
+    REQUIRED_FIELDS = ()
 
     class Meta:
         verbose_name = _("Пользователь")
