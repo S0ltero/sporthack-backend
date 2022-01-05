@@ -126,7 +126,7 @@ class SectionEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = SectionEvent
         fields = "__all__"
-    
+
     def get_members(self, obj):
         return [StudentSerializer(m.user).data for m in obj.member.all()]
 
@@ -149,7 +149,7 @@ class SectionDetailSerializer(serializers.ModelSerializer):
         trainers = TrainerSerializer(queryset, many=True)
         trainers = ({key: value for key, value in trainer.items() if key != "sections"} for trainer in trainers.data)
         return trainers
-    
+
     def get_trainings(self, obj):
         queryset = obj.training.order_by("datetime")
         trainings = []
@@ -189,7 +189,7 @@ class StudentDetailSerializer(serializers.ModelSerializer):
         fields = (
             "id", "last_name", "first_name", "middle_name",
             "email", "photo", "institution", "group", "is_trainer",
-            "sections", "trainings", "events", "rating", 
+            "sections", "trainings", "events", "rating",
             "pass_trainings_count", "awards"
         )
 
@@ -206,7 +206,7 @@ class StudentDetailSerializer(serializers.ModelSerializer):
             "pass_trainings_count": section.member.get(user=obj).pass_trainings
         } for section in queryset]
         return sections
-    
+
     def get_trainings(self, obj):
         queryset = SectionTraining.objects.filter(section__in=obj.section.values_list("section"), is_active=True)
         trainings = [{
