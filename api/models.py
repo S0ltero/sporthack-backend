@@ -62,11 +62,10 @@ class StudentAward(models.Model):
     CATEGORY_CHOICES = [
         ("institute", "Институтский"),
         ("university", "Университетсткий"),
-        ("interuniversity", "Межуниверситетский"),
-        ("district", "Районный"),
-        ("city", "Городской"),
-        ("regional", "Областной"),
-        ("all-russia", "Всероссийский")
+        ("regional", "Региональный"),
+        ("interregional", "Межрегиональный"),
+        ("all-russia", "Всероссийский"),
+        ("international", "Международный")
     ]
 
     user = models.ForeignKey(
