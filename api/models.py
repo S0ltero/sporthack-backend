@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 
-from .managers import StudentManager, TrainerManager, AdminManager
+from .managers import UserManager, StudentManager, TrainerManager, AdminManager
 from .email import AwardNoVerified
 
 
@@ -41,6 +41,8 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ()
+
+    objects = UserManager()
 
     class Meta:
         verbose_name = _("Пользователь")
