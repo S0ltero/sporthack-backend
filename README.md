@@ -19,6 +19,30 @@ python3 -m venv venv
 Установим модули:
 ```pip install -r requirements.txt```
 
+## Environments
+
+Create file `.env`
+
+Provide in file this values:
+
+```
+SITE_DOMAIN=host.docker.internal
+
+DJANGO_SECRET_KEY=
+DJANGO_DEBUG=
+
+DB_NAME=
+DB_USER=
+DB_HOST=host.docker.internal
+DB_PASSWORD=
+DB_PORT=
+
+EMAIL_HOST=
+EMAIL_PORT=
+EMAIL_USER=
+EMAIL_PASSWORD=
+```
+
 ## Конфигурация
 * Создайте папку: ```local```
 * Внутри папки создайте файл: ```config.json```
