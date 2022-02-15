@@ -5,16 +5,13 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-try:
-    with open(os.path.join(BASE_DIR, 'local', 'config.json')) as handle:
-        config = json.load(handle)
-except IOError:
-    raise Exception("Укажите данные приложения в файле по пути /local/config.json")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-SECRET_KEY = str(config['secret_key'])
+DEBUG = os.getenv("DJANGO_DEBUG")
+ALLOWED_HOSTS = ['*']
 
 # Custom settings
-SITE_DOMAIN = config.get("site_domain", "example.com")
+SITE_DOMAIN = os.getenv("SITE_DOMAIN")
 
 # Application definition
 
@@ -77,12 +74,12 @@ WSGI_APPLICATION = 'sporthack.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config.get("database", ""),
-        'USER': config.get("user", ""),
-        'PASSWORD': config.get("password", ""),
-        'HOST': config.get("host", ""),
-        'PORT': config.get("port", ""),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
     }
 }
 
@@ -143,14 +140,14 @@ PHONENUMBER_DEFAULT_FORMAT = 'NATIONAL'
 PHONENUMBER_DEFAULT_REGION = 'RU'
 
 # Email settings
-DEFAULT_FROM_EMAIL = config.get('email_user')
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_USER")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config.get('email_host')
+EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_PORT = config.get('email_port')
-EMAIL_HOST_USER = config.get('email_user')
-EMAIL_HOST_PASSWORD = config.get('email_password')
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 # Internationalization
 
@@ -162,9 +159,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
