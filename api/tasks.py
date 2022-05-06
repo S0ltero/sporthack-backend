@@ -7,6 +7,7 @@ from .models import SectionEvent, SectionTraining, SectionMember
 
 logger = get_task_logger(__name__)
 
+
 @app.task
 def update_trainings():
     queryset = SectionEvent.objects.filter(datetime__lte=timezone.now()).update(is_active=False)
@@ -26,6 +27,7 @@ def update_trainings():
             member.pass_trainings += 1
             member.save()
     queryset.update(is_active=False)
+
 
 @app.task
 def update_events():
