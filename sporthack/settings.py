@@ -157,6 +157,12 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# Celery
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
