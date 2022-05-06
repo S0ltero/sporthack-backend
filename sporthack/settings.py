@@ -49,7 +49,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sporthack.urls'
 
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = os.getenv("CORS_ORIGIN_ALLOW_ALL") # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_WHITELIST = os.getenv("CORS_ORIGIN_WHITELIST").split(" ")
 CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
