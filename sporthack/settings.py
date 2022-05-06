@@ -151,7 +151,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 # Internationalization
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 USE_L10N = True
