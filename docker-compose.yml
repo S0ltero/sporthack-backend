@@ -25,6 +25,8 @@ services:
       - 5432
     env_file:
       - ./.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   celery-beat:
     build: ./
     command: celery -A sporthack beat -l info
@@ -35,6 +37,8 @@ services:
       - 5432
     env_file:
       - ./.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   redis:
     image: redis:alpine
   nginx:
