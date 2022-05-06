@@ -174,7 +174,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     "update_events": {
         "task": "api.tasks.update_events",
-        "shedule": crontab(minute="*/5")
+        "schedule": crontab(minute="*/5"),
     }
 }
 
