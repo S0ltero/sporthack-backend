@@ -168,7 +168,7 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 
 CELERY_BEAT_SCHEDULE = {
     "update_trainigs": {
-        "task": "api.task.update_trainings",
+        "task": "api.tasks.update_trainings",
         "schedule": crontab(minute="*/5"),
     },
     "update_events": {
