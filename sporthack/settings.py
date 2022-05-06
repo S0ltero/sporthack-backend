@@ -3,6 +3,8 @@ import json
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
@@ -163,6 +165,20 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+# Celery periodic tasks
+
+CELERY_BEAT_SCHEDULE = {
+    "update_trainigs": {
+        "task": "api.task.update_trainings",
+        "schedule": crontab(minute="*/5"),
+    },
+    "update_events": {
+        "task": "api.tasks.update_events",
+        "shedule": crontab(minute="*/5")
+    }
+}
+
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
