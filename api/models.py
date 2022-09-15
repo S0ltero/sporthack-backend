@@ -219,6 +219,6 @@ class TrainingMember(models.Model):
         verbose_name = _("Участник тренировки")
         verbose_name_plural = _("Участники тренировки")
         unique_together = ['training', 'user']
-    
+
     def __str__(self):
         return f"{self.user.last_name} {self.user.first_name}"

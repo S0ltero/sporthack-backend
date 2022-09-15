@@ -135,7 +135,7 @@ class SectionListView(ListAPIView):
             sections = self.queryset.objects.all().only('id', 'title')
         except Section.DoesNotExist:
             return Response(data={"description": f"Секции не найдены", "error": "sections_not_found"}, status=404)
-        
+
         serializer = self.serializer_class(sections, many=True)
         return Response(serializer.data, status=200)
 
@@ -150,7 +150,7 @@ class SectionDetailListView(ListAPIView):
             sections = self.queryset.objects.all()
         except Section.DoesNotExist:
             return Response(data={"description": f"Секции не найдены", "error": "sections_not_found"}, status=404)
-        
+
         serializer = self.serializer_class(sections, many=True)
         return Response(serializer.data, status=200)
 
@@ -396,7 +396,7 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data
         login(request, user)
         return super(LoginAPI, self).post(request)
-    
+
     def get_post_response_data(self, request, token, instance):
         UserSerializer = self.get_user_serializer_class()
 
