@@ -91,7 +91,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class TrainerSerializer(serializers.ModelSerializer):
     photo = CustomBase64ImageField(represent_in_base64=True, required=False)
-    sections = serializers.SerializerMethodField()
+    sections = SectionSerializer(read_only=True, many=True)
 
     class Meta:
         model = Trainer
@@ -100,14 +100,6 @@ class TrainerSerializer(serializers.ModelSerializer):
             "email", "phone", "rank", "photo", "is_trainer",
             "sections"
         )
-
-    def get_sections(self, obj):
-        sections = []
-        for section in obj.trainers.all():
-            data = SectionSerializer(section).data
-            data["count_members"] = section.member.count()
-            sections.append(data)
-        return sections
 
 
 class TrainingMemberSerializer(serializers.ModelSerializer):
