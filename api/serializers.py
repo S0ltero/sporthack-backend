@@ -101,6 +101,9 @@ class SectionTrainingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SectionTraining
         fields = "__all__"
+        extra_kwargs = {
+            "section": {"write_only": True}
+        }
 
 
 class SectionMemberSerializer(serializers.ModelSerializer):
