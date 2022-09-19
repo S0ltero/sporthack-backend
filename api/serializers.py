@@ -91,14 +91,12 @@ class SectionSerializer(serializers.ModelSerializer):
 
 class TrainerSerializer(serializers.ModelSerializer):
     photo = CustomBase64ImageField(represent_in_base64=True, required=False)
-    sections = SectionSerializer(read_only=True, many=True)
 
     class Meta:
         model = Trainer
         fields = (
             "id", "last_name", "first_name", "middle_name",
             "email", "phone", "rank", "photo", "is_trainer",
-            "sections"
         )
 
 
