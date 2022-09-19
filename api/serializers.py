@@ -80,6 +80,15 @@ class StudentAwardSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class SectionSerializer(serializers.ModelSerializer):
+    image = CustomBase64ImageField(represent_in_base64=True, required=False)
+    count_members = serializers.IntegerField(source="members.count", read_only=True)
+
+    class Meta:
+        model = Section
+        fields = ("id", "title", "image")
+
+
 class TrainerSerializer(serializers.ModelSerializer):
     photo = CustomBase64ImageField(represent_in_base64=True, required=False)
     sections = serializers.SerializerMethodField()
@@ -153,15 +162,6 @@ class SectionDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
         fields = "__all__"
-
-
-class SectionSerializer(serializers.ModelSerializer):
-    image = CustomBase64ImageField(represent_in_base64=True, required=False)
-    count_members = serializers.IntegerField(source="members.count", read_only=True)
-
-    class Meta:
-        model = Section
-        fields = ("id", "title", "image")
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
