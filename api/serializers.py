@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.utils import timezone
 from rest_framework import serializers
 from drf_extra_fields.fields import Base64ImageField, Base64FieldMixin
+from djoser.serializers import UserCreatePasswordRetypeSerializer as DjoserUserCreateSerializer
 
 from .models import (
     User,
@@ -44,6 +45,18 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id", "last_name", "first_name", "middle_name",
             "email", "phone", "institution", 
+            "group", "photo", "rank", "is_trainer"
+        )
+
+
+class UserCreateSerializer(DjoserUserCreateSerializer):
+    photo = CustomBase64ImageField(represent_in_base64=True, required=False)
+
+    class Meta:
+        model = User
+        fields = (
+            "id", "last_name", "first_name", "middle_name",
+            "email", "password", "phone", "institution", 
             "group", "photo", "rank", "is_trainer"
         )
 
