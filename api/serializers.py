@@ -96,14 +96,11 @@ class TrainingMemberSerializer(serializers.ModelSerializer):
 
 
 class SectionTrainingSerializer(serializers.ModelSerializer):
-    members = serializers.SerializerMethodField()
+    members = StudentSerializer(read_only=True, many=True)
 
     class Meta:
         model = SectionTraining
         fields = "__all__"
-
-    def get_members(self, obj):
-        return [StudentSerializer(m.user).data for m in obj.member.all()]
 
 
 class SectionMemberSerializer(serializers.ModelSerializer):
