@@ -144,6 +144,7 @@ class SectionDetailSerializer(serializers.ModelSerializer):
 
 class SectionSerializer(serializers.ModelSerializer):
     image = CustomBase64ImageField(represent_in_base64=True, required=False)
+    count_members = serializers.IntegerField(source="members.count", read_only=True)
 
     class Meta:
         model = Section
