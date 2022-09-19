@@ -86,7 +86,7 @@ class SectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Section
-        fields = ("id", "title", "image")
+        fields = ("id", "title", "image", "count_members")
 
 
 class TrainerSerializer(serializers.ModelSerializer):
