@@ -29,7 +29,7 @@ from .models import (
 from .serializers import (
     UserSerializer, StudentSerializer,
     StudentDetailSerializer, StudentAwardSerializer,
-    TrainerSerializer, SectionSerializer, SectionDetailSerializer,
+    TrainerDetailSerializer, SectionSerializer, SectionDetailSerializer,
     SectionMemberSerializer, SectionEventSerializer,
     EventMemberSerializer, SectionTrainingSerializer, 
     TrainingMemberSerializer, LoginSerializer
@@ -114,7 +114,7 @@ class StudentRatingListView(RetrieveAPIView):
 class TrainerView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Trainer
-    serializer_class = TrainerSerializer
+    serializer_class = TrainerDetailSerializer
 
     def retrieve(self, request, pk):
         try:
