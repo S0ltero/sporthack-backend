@@ -33,9 +33,9 @@ class StudentAwardList(admin.StackedInline):
 class AdminStudent(UserAdmin):
     actions = None
     inlines = [StudentAwardList]
-    list_display = ("id", "last_name", "first_name", "middle_name", "institution", "group", "is_active")
+    list_display = ("id", "email", "last_name", "first_name", "middle_name", "institution", "group", "is_active")
     list_filter = ("is_active",)
-    list_display_links = ("last_name", "first_name", "middle_name")
+    list_display_links = ("email", "last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
         ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "email", "password"))}),
@@ -70,9 +70,9 @@ class AdminStudentAward(admin.ModelAdmin):
 @admin.register(Trainer)
 class AdminTrainer(UserAdmin):
     actions = None
-    list_display = ("id", "last_name", "first_name", "middle_name", "phone", "is_active")
+    list_display = ("id", "email", "last_name", "first_name", "middle_name", "phone", "is_active")
     list_filter = ("is_active",)
-    list_display_links = ("last_name", "first_name", "middle_name")
+    list_display_links = ("email", "last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
         ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "photo", "phone", "email", "password"))}),
@@ -96,12 +96,12 @@ class AdminTrainer(UserAdmin):
 @admin.register(Admin)
 class AdminAdministrator(UserAdmin):
     actions = None
-    list_display = ("id", "last_name", "first_name", "middle_name", "is_staff", "is_superuser",)
+    list_display = ("id", "email", "last_name", "first_name", "middle_name", "is_staff", "is_superuser",)
     list_filter = ("is_staff", "is_superuser")
-    list_display_links = ("last_name", "first_name", "middle_name")
+    list_display_links = ("email", "last_name", "first_name", "middle_name")
     readonly_fields = ("password", "last_login", "date_joined")
     fieldsets = (
-        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "email", "password"))}),
+        ("Основная информация", {"fields": ((("last_name", "first_name", "middle_name"), "email", "photo", "password"))}),
         ("Дополнительная информация", {"fields": ("is_staff", "is_superuser", "last_login", "date_joined")}),
     )
     add_fieldsets = (
