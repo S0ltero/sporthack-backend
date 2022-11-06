@@ -140,18 +140,33 @@ class Section(models.Model):
 
 
 class SectionMember(models.Model):
-    section = models.ForeignKey(Section, related_name="member", 
-                                on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, verbose_name=_("Участник"),
-                             related_name="section", on_delete=models.CASCADE)
-    rating = models.IntegerField(verbose_name=_("Рейтинг"), default=0, blank=True)
-    pass_trainings = models.IntegerField(verbose_name=_("Пройденные тренировки"), default=0, blank=True)
+    section = models.ForeignKey(
+        Section,
+        related_name="member", 
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        Student,
+        verbose_name=_("Участник"),
+        related_name="section",
+        on_delete=models.CASCADE
+    )
+    rating = models.IntegerField(
+        verbose_name=_("Рейтинг"),
+        default=0,
+        blank=True
+    )
+    pass_trainings = models.IntegerField(
+        verbose_name=_("Пройденные тренировки"),
+        default=0,
+        blank=True
+    )
 
     class Meta:
         verbose_name = _("Участник секции")
         verbose_name_plural = _("Участники секции")
         unique_together = ['section', 'user']
-    
+
     def __str__(self):
         return f"{self.user.last_name} {self.user.first_name}"
 
