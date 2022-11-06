@@ -1,8 +1,35 @@
-# Установка
+# SportHack
 
-## Системные требования
+**ENG:** Tracker of sports events for sports sections in an educational institution
+
+**Funtionality:**
+
+* **Trainers**
+  * Create and plan trainings and events for your section
+  * Track the activity of students in their sections
+* **Students**
+  * Sign up for trainings by QR code
+  * Follow the schedule of training and events
+  * Track your statistics and ranking among other students
+
+---
+
+**RUS:** Трекер спортивных мероприятия для спортивных секций в учебном заведении
+
+**Функционал:**
+
+* **Тренеры**
+  * Создавать и планировать тренировки и мероприятия своих секций
+  * Отслеживать активность студентов в своих секциях
+* Студенты
+  * Записываться на тренировки с помощью QR кода
+  * Следить за расписанием тренировок и мероприятий
+  * Отслеживать свою статистику и рейтинг среди других студентов
+
+## Requirements
+
 Python 3.7+
-База данных: Postgres
+DB: Postgres
 
 ## Environments
 
@@ -30,10 +57,3 @@ EMAIL_PORT=
 EMAIL_USER=
 EMAIL_PASSWORD=
 ```
-
-## Настройка Django
-
-* Создадим миграции: `docker-compose run --rm -u 0 web python manage.py makemigrations`
-
-* Применим миграции к базе данных: `docker-compose run --rm -u 0 web python manage.py migrate`
-
