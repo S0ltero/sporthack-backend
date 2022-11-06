@@ -18,7 +18,7 @@ urlpatterns = [
 
     path("trainings/<int:pk>", SectionTrainingListView.as_view(), name="trainings"),
     path("trainings-date/", SectionTrainingListView.as_view(), name="training-date"),
-    path("training/create-member/<int:pk>", TrainingMemberCreateView.as_view(), name="create-training-member"),
+    path("training/create-member/<str:uuid>", TrainingMemberCreateView.as_view(), name="create-training-member"),
     path("training/delete-member/<int:pk>", TrainingMemberDeleteView.as_view(), name="delete-training-member"),
 
     path("events/", SectionEventListView.as_view(), name="events"),
