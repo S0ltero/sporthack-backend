@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core import validators
@@ -244,6 +246,9 @@ class EventMember(models.Model):
 
 
 class SectionTraining(models.Model):
+    uuid = models.UUIDField(
+        verbose_name="Уникальный индентификатор",
+        default=uuid.uuid1)
     section = models.ForeignKey(
         Section,
         verbose_name=_("Секция"),
