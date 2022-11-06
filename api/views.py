@@ -4,7 +4,7 @@ from datetime import datetime
 from django.contrib.auth import login
 from django.utils import timezone
 from django.template.loader import get_template
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
@@ -15,7 +15,6 @@ from rest_framework.generics import (
 )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework import HTTP_HEADER_ENCODING
 from knox.views import LoginView as KnoxLoginView
 from knox.auth import TokenAuthentication
 
@@ -267,35 +266,30 @@ class SectionTrainingView(RetrieveAPIView):
 
 
 class TrainingMemberCreateView(GenericAPIView):
-    authentication_classes = (TokenAuthentication,)
-    queryset = TrainingMember
+    permission_classes = [IsAuthenticated]
+    queryset = SectionTraining.objects.all()
     serializer_class = TrainingMemberSerializer
+    lookup_field = "uuid"
 
-    def get(self, request, pk):
-        token = request.COOKIES.get('token')
-        if not token:
-           return HttpResponseRedirect(redirect_to="/login") 
-        token = token.encode(HTTP_HEADER_ENCODING)
-        user, token = TokenAuthentication().authenticate_credentials(token=token)
-        if not user:
-            return HttpResponseRedirect(redirect_to="/login")
-        request.data["user"] = user.id
-        try:
-            training = SectionTraining.objects.get(id=pk)
-            request.data["training"] = training.id
-        except SectionTraining.DoesNotExist:
-            return HttpResponseRedirect(redirect_to="/profile")
+    def get(self, request, uuid):
+        training = self.get_object()
+
+        data = request.data.copy()
+        data["user"] = request.user.id
+        data["training"] = training.id
+
         if training.datetime < timezone.now():
             timedelta = timezone.now() - training.datetime
             diff_hours = timedelta.total_seconds() // 60 // 60
             if diff_hours >= 3:
-                return HttpResponseRedirect(redirect_to="/profile")
-        serializer = self.serializer_class(data=request.data)
+                return Response({"error": "Запись на тренировку уже закрыта!"})
+
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid(raise_exception=False):
             serializer.save()
-            return HttpResponseRedirect(redirect_to="/profile")
+            return Response(serializer.data, status=201)
         else:
-            return HttpResponseRedirect(redirect_to="/profile")
+            return Response(serializer.errors, status=400)
 
 
 class TrainingMemberDeleteView(GenericAPIView):
