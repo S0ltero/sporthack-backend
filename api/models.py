@@ -81,8 +81,12 @@ class StudentAward(models.Model):
         verbose_name=_("Изображение награды"), 
         upload_to="user/"
     )
+    category = models.CharField(
+        verbose_name=_("Категория награды"),
+        max_length=100,
+        choices=CATEGORY_CHOICES
+    )
     title = models.CharField(verbose_name=_("Название награды"), max_length=100)
-    category = models.CharField(verbose_name=_("Категория награды"), max_length=100, choices=CATEGORY_CHOICES)
     verified = models.BooleanField(verbose_name=_("Проверено"), default=False)
 
     class Meta:
@@ -120,8 +124,11 @@ class Admin(User):
 
 
 class Section(models.Model):
-    trainers = models.ManyToManyField(Trainer, verbose_name=_("Тренеры"),
-                                      related_name="trainers")
+    trainers = models.ManyToManyField(
+        Trainer,
+        verbose_name=_("Тренеры"),
+        related_name="sections"
+    )
     title = models.CharField(_("Название секции"), max_length=255)
     description = models.TextField(_("Описание секции"))
     image = models.ImageField(
@@ -182,13 +189,33 @@ class SectionEvent(models.Model):
         ("all-russia", "Всероссийский")
     ]
 
-    section = models.ForeignKey(Section, verbose_name=_("Секция"), 
-                                related_name="event", on_delete=models.CASCADE)
-    title = models.CharField(verbose_name=_("Название"), max_length=255)
-    level = models.CharField(verbose_name=_("Уровень"), max_length=100, choices=LEVEL_CHOICES)
+    section = models.ForeignKey(
+        Section,
+        verbose_name=_("Секция"), 
+        related_name="event",
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(
+        verbose_name=_("Название"),
+        max_length=255
+    )
+    level = models.CharField(
+        verbose_name=_("Уровень"),
+        max_length=100,
+        choices=LEVEL_CHOICES
+    )
+    is_active = models.BooleanField(
+        verbose_name=_("Активно?"),
+        default=True
+    )
+    members = models.ManyToManyField(
+        Student,
+        verbose_name="Участники",
+        through="EventMember",
+        related_name="events"
+    )
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
     place = models.TextField(verbose_name=_("Место проведения"))
-    is_active = models.BooleanField(verbose_name=_("Активно?"), default=True)
 
     class Meta:
         verbose_name = _("Мероприятие")
@@ -196,10 +223,16 @@ class SectionEvent(models.Model):
 
 
 class EventMember(models.Model):
-    event = models.ForeignKey(SectionEvent, related_name="member",
-                              on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, verbose_name=_("Участник"),
-                             related_name="event", on_delete=models.CASCADE)
+    event = models.ForeignKey(
+        SectionEvent,
+        verbose_name=_("Мероприятие"),
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        Student,
+        verbose_name=_("Участник"),
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         verbose_name = _("Участник мероприятия")
@@ -211,12 +244,25 @@ class EventMember(models.Model):
 
 
 class SectionTraining(models.Model):
-    section = models.ForeignKey(Section, verbose_name=_("Секция"),
-                                related_name="training", on_delete=models.CASCADE)
+    section = models.ForeignKey(
+        Section,
+        verbose_name=_("Секция"),
+        related_name="trainings",
+        on_delete=models.CASCADE
+    )
+    members = models.ManyToManyField(
+        Student,
+        verbose_name="Участники",
+        through="TrainingMember",
+        related_name="trainings"
+    )
+    duration = models.IntegerField(
+        verbose_name=_("Продолжительность"),
+        default=0,
+        help_text="Продолжительность тренировки в минутах"
+    )
     datetime = models.DateTimeField(verbose_name=_("Дата проведения"))
     place = models.TextField(verbose_name=_("Место проведения"))
-    duration = models.IntegerField(verbose_name=_("Продолжительность"), default=0, 
-                                   help_text="Продолжительность тренировки в минутах")
     is_active = models.BooleanField(verbose_name=_("Активна?"), default=True)
 
     class Meta:
@@ -225,10 +271,16 @@ class SectionTraining(models.Model):
 
 
 class TrainingMember(models.Model):
-    training = models.ForeignKey(SectionTraining, related_name="member",
-                                 on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, verbose_name=_("Участник"),
-                             related_name="training", on_delete=models.CASCADE)
+    training = models.ForeignKey(
+        SectionTraining,
+        verbose_name=_("Тренировка"),
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        Student,
+        verbose_name=_("Участник"),
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         verbose_name = _("Участник тренировки")
